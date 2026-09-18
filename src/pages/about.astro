@@ -1,0 +1,150 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const stack = ['Astro', 'Cloudflare', 'TypeScript', 'HTML5', 'CSS3', 'JavaScript', 'Git', 'Figma', 'Markdown', 'SEO'];
+
+const values = [
+  {
+    title: 'Performance first',
+    body: 'I treat speed as a feature, not an optional extra. Every decision is weighed against its impact on load time.',
+  },
+  {
+    title: 'Honest & transparent',
+    body: 'Fixed quotes, plain English and no jargon. You always know what you\u2019re getting and what it costs.',
+  },
+  {
+    title: 'Built to last',
+    body: 'Clean, standards-based code with no plugin bloat — so your site stays fast, secure and easy to maintain.',
+  },
+  {
+    title: 'A real partnership',
+    body: 'I work with small teams as if I\u2019m part of them, learning your goals and building for the long term.',
+  },
+];
+---
+
+<BaseLayout
+  title="About"
+  description="I'm a freelance web designer & developer helping small businesses, charities and individuals get fast, secure, modern websites built with Astro and hosted on Cloudflare."
+>
+  <section class="section-sm page-hero">
+    <div class="container about-intro">
+      <div class="intro-copy">
+        <span class="eyebrow">About me</span>
+        <h1 class="page-title">Hi, I build <span class="text-gradient">fast websites</span> for good people.</h1>
+        <p class="lead">
+          I'm a freelance web designer and developer. For years I've helped small
+          businesses, charities and individuals get online with websites that are
+          genuinely fast, properly secure and easy to find on Google.
+        </p>
+        <p>
+          I got tired of seeing great organisations let down by slow, bloated,
+          insecure websites. So I specialise in a modern approach: static sites
+          built with <strong>Astro</strong>, deployed to <strong>Cloudflare's</strong>
+          global edge. The result is sites that load in a blink, cost very little
+          to run and score top marks on performance and SEO.
+        </p>
+        <a href="/pricing/" class="btn btn-primary">Work with me <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="intro-visual" aria-hidden="true">
+        <div class="avatar-card card">
+          <div class="avatar-photo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+          </div>
+          <p class="avatar-name">Your Name</p>
+          <p class="avatar-role">Freelance Web Designer &amp; Developer</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech stack -->
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Tech stack</span>
+        <h2 class="section-title">Tools I build with</h2>
+      </div>
+      <ul class="stack">
+        {stack.map((t) => <li class="stack-badge">{t}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">How I work</span>
+        <h2 class="section-title">What you can expect</h2>
+      </div>
+      <div class="grid grid-2">
+        {values.map((v) => (
+          <article class="card value">
+            <h3>{v.title}</h3>
+            <p>{v.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="cta-banner">
+        <div>
+          <h2>Let's build something fast together.</h2>
+          <p>Get in touch and I'll reply within one working day.</p>
+        </div>
+        <a href="/pricing/" class="btn btn-primary">Get a Quote <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero { padding-top: clamp(2.5rem, 6vw, 4rem); }
+  .about-intro { display: grid; grid-template-columns: 1.4fr 0.6fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  .page-title { font-size: var(--fs-3xl); margin: 0.75rem 0 1.25rem; }
+  .lead { font-size: var(--fs-lg); color: var(--text-primary); margin-bottom: 1.1rem; }
+  .intro-copy p { margin-bottom: 1.1rem; }
+  .intro-copy .btn { margin-top: 0.5rem; }
+  .avatar-card { padding: 2rem; text-align: center; }
+  .avatar-photo {
+    width: 120px; height: 120px; margin: 0 auto 1.25rem;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    background: linear-gradient(135deg, rgba(34,211,238,0.15), rgba(139,92,246,0.15));
+    border: 1px solid var(--border-strong);
+    color: var(--accent-cyan);
+  }
+  .avatar-photo svg { width: 60px; height: 60px; }
+  .avatar-name { font-weight: 700; color: var(--text-primary); font-size: var(--fs-lg); }
+  .avatar-role { font-size: var(--fs-sm); color: var(--text-muted); }
+  .stack { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .stack-badge {
+    padding: 0.55rem 1.1rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    background: var(--bg-card);
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    color: var(--text-secondary);
+  }
+  .value { padding: clamp(1.5rem, 3vw, 2rem); }
+  .value h3 { font-size: var(--fs-lg); margin-bottom: 0.5rem; }
+  .value p { font-size: var(--fs-sm); }
+  .cta-banner {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 2rem; flex-wrap: wrap;
+    padding: clamp(2rem, 5vw, 3.5rem);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-strong);
+    background:
+      radial-gradient(circle at 15% 20%, rgba(6,182,212,0.12), transparent 55%),
+      radial-gradient(circle at 85% 80%, rgba(139,92,246,0.12), transparent 55%),
+      var(--bg-card);
+  }
+  .cta-banner h2 { font-size: var(--fs-xl); margin-bottom: 0.5rem; }
+  @media (max-width: 760px) { .about-intro { grid-template-columns: 1fr; } }
+</style>

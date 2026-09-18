@@ -1,0 +1,174 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PricingCard from '../components/PricingCard.astro';
+
+const tiers = [
+  {
+    name: 'Starter',
+    price: '£299',
+    description: 'A polished one-page site to get your business online, fast.',
+    features: [
+      'Single-page website',
+      'Custom responsive design',
+      'Contact form',
+      'Basic on-page SEO',
+      'Cloudflare hosting setup',
+      'Free SSL & security headers',
+      '1 round of revisions',
+    ],
+    cta: 'Start with Starter',
+    popular: false,
+  },
+  {
+    name: 'Professional',
+    price: '£599',
+    description: 'A complete multi-page site for growing organisations.',
+    features: [
+      'Up to 6 pages',
+      'Bespoke design system',
+      'Blog / news section',
+      'Full technical SEO setup',
+      'Core Web Vitals tuning',
+      'Cloudflare edge hosting',
+      'Analytics integration',
+      '2 rounds of revisions',
+    ],
+    cta: 'Choose Professional',
+    popular: true,
+  },
+  {
+    name: 'Premium',
+    price: '£999+',
+    description: 'A tailored build with content and ongoing support.',
+    features: [
+      'Unlimited core pages',
+      'Everything in Professional',
+      'Copywriting & content creation',
+      'Advanced SEO strategy',
+      'CMS / content collections',
+      'Priority support',
+      'Monthly performance reports',
+      'Ongoing maintenance option',
+    ],
+    cta: 'Go Premium',
+    popular: false,
+  },
+];
+
+const faqs = [
+  {
+    q: 'Are these prices one-off or recurring?',
+    a: 'The headline prices are one-off project fees. Hosting on Cloudflare is typically free or very low cost, and I offer optional monthly maintenance plans if you\u2019d like ongoing support.',
+  },
+  {
+    q: 'How long does a project take?',
+    a: 'A Starter site is usually ready in 1\u20132 weeks. Professional and Premium projects typically take 3\u20136 weeks depending on scope and how quickly content is ready.',
+  },
+  {
+    q: 'Do you offer charity or non-profit discounts?',
+    a: 'Yes. I love working with charities and community organisations — get in touch and we\u2019ll find a package that works for your budget.',
+  },
+  {
+    q: 'What do I need to provide?',
+    a: 'Your logo, brand colours (if you have them) and any text or images. Don\u2019t have content ready? The Premium package includes copywriting.',
+  },
+];
+---
+
+<BaseLayout
+  title="Pricing"
+  description="Simple, transparent pricing for fast, secure Astro websites. Starter from £299, Professional from £599, Premium from £999 — hosted on Cloudflare."
+>
+  <section class="section-sm page-hero">
+    <div class="container center">
+      <span class="eyebrow">Pricing</span>
+      <h1 class="page-title">Simple, <span class="text-gradient">transparent</span> pricing</h1>
+      <p class="section-intro" style="margin-inline:auto;">Fixed project fees with no surprises. Every package includes fast, secure hosting on Cloudflare and a site built for top PageSpeed and SEO scores.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="grid grid-3 pricing-grid">
+        {tiers.map((t) => (
+          <PricingCard
+            name={t.name}
+            price={t.price}
+            description={t.description}
+            features={t.features}
+            cta={t.cta}
+            popular={t.popular}
+          />
+        ))}
+      </div>
+      <p class="note">All prices in GBP. Custom requirements? <a href="/about/">Get in touch</a> for a tailored quote.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" style="padding-top:0;">
+    <div class="container container-narrow">
+      <div class="section-head center">
+        <span class="eyebrow">FAQ</span>
+        <h2 class="section-title">Common questions</h2>
+      </div>
+      <div class="faqs">
+        {faqs.map((f) => (
+          <details class="card faq">
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="cta-banner">
+        <div>
+          <h2>Still have questions?</h2>
+          <p>Drop me a line and I'll help you choose the right package for your goals and budget.</p>
+        </div>
+        <a href="/about/" class="btn btn-primary">Get in touch <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero { padding-top: clamp(2.5rem, 6vw, 4rem); }
+  .center { text-align: center; }
+  .page-title { font-size: var(--fs-3xl); margin: 0.75rem 0 1.25rem; }
+  .pricing-grid { align-items: stretch; margin-top: 1rem; }
+  .note { text-align: center; margin-top: 2rem; font-size: var(--fs-sm); color: var(--text-muted); }
+  .faqs { display: flex; flex-direction: column; gap: 1rem; }
+  .faq { padding: 1.25rem 1.5rem; }
+  .faq summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: var(--fs-base);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; color: var(--accent-cyan); font-size: 1.4rem; line-height: 1; }
+  .faq[open] summary::after { content: '\2212'; }
+  .faq p { margin-top: 0.9rem; font-size: var(--fs-sm); }
+  .cta-banner {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 2rem; flex-wrap: wrap;
+    padding: clamp(2rem, 5vw, 3.5rem);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-strong);
+    background:
+      radial-gradient(circle at 15% 20%, rgba(6,182,212,0.12), transparent 55%),
+      radial-gradient(circle at 85% 80%, rgba(139,92,246,0.12), transparent 55%),
+      var(--bg-card);
+  }
+  .cta-banner h2 { font-size: var(--fs-xl); margin-bottom: 0.5rem; }
+</style>

@@ -1,0 +1,39 @@
+---
+interface Props {
+  title: string;
+  excerpt: string;
+  date: Date;
+  tags?: string[];
+  href: string;
+}
+const { title, excerpt, date, tags = [], href } = Astro.props;
+const formatted = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+const iso = date.toISOString();
+---
+<article class="card blog-card">
+  <div class="meta">
+    <time datetime={iso}>{formatted}</time>
+    {tags.length > 0 && <span class="tag">{tags[0]}</span>}
+  </div>
+  <h3 class="title"><a href={href}>{title}</a></h3>
+  <p class="excerpt">{excerpt}</p>
+  <a href={href} class="read">Read more <span aria-hidden="true">→</span></a>
+</article>
+
+<style>
+  .blog-card { display: flex; flex-direction: column; padding: clamp(1.5rem, 3vw, 1.9rem); height: 100%; }
+  .meta { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.9rem; font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-muted); }
+  .tag {
+    padding: 0.2rem 0.65rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .title { font-size: var(--fs-lg); margin-bottom: 0.6rem; line-height: 1.25; }
+  .title a { color: var(--text-primary); }
+  .title a:hover { color: var(--accent-cyan); }
+  .excerpt { font-size: var(--fs-sm); margin-bottom: 1.25rem; }
+  .read { margin-top: auto; font-size: var(--fs-sm); font-weight: 600; }
+</style>

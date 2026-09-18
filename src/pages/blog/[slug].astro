@@ -1,0 +1,114 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  );
+
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: {
+      post,
+      prev: posts[i + 1] ?? null,
+      next: posts[i - 1] ?? null,
+    },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  prev: CollectionEntry<'blog'> | null;
+  next: CollectionEntry<'blog'> | null;
+}
+
+const { post, prev, next } = Astro.props;
+const { Content } = await render(post);
+const { title, description, pubDate, updatedDate, tags, author } = post.data;
+
+const formatted = pubDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+const words = (post.body ?? "").trim().split(/\s+/).length;
+const readingTime = Math.max(1, Math.round(words / 200));
+---
+
+<BaseLayout title={title} description={description} canonical={`/blog/${post.id}/`}>
+  <article class="section-sm">
+    <div class="container container-narrow">
+      <a href="/blog/" class="back">← Back to blog</a>
+
+      <header class="post-head">
+        <div class="meta">
+          <time datetime={pubDate.toISOString()}>{formatted}</time>
+          <span aria-hidden="true">•</span>
+          <span>{readingTime} min read</span>
+          <span aria-hidden="true">•</span>
+          <span>{author}</span>
+        </div>
+        <h1 class="post-title">{title}</h1>
+        <p class="post-desc">{description}</p>
+        {tags.length > 0 && (
+          <ul class="tags">
+            {tags.map((t) => <li>{t}</li>)}
+          </ul>
+        )}
+        {updatedDate && <p class="updated">Updated {updatedDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>}
+      </header>
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      <nav class="post-nav" aria-label="More posts">
+        {prev ? (
+          <a href={`/blog/${prev.id}/`} class="card nav-item prev">
+            <span class="dir">← Previous</span>
+            <span class="nav-title">{prev.data.title}</span>
+          </a>
+        ) : <span></span>}
+        {next && (
+          <a href={`/blog/${next.id}/`} class="card nav-item next">
+            <span class="dir">Next →</span>
+            <span class="nav-title">{next.data.title}</span>
+          </a>
+        )}
+      </nav>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .back { font-size: var(--fs-sm); font-family: var(--font-mono); }
+  .post-head { margin: 1.5rem 0 2.5rem; }
+  .meta { display: flex; flex-wrap: wrap; gap: 0.6rem; font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-muted); margin-bottom: 1.1rem; }
+  .post-title { font-size: var(--fs-3xl); margin-bottom: 1rem; }
+  .post-desc { font-size: var(--fs-lg); color: var(--text-secondary); }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.25rem; }
+  .tags li {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    padding: 0.25rem 0.7rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .updated { margin-top: 1rem; font-size: var(--fs-xs); color: var(--text-muted); }
+  .post-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 3.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .nav-item { display: flex; flex-direction: column; gap: 0.35rem; padding: 1.25rem 1.5rem; }
+  .nav-item.next { text-align: right; }
+  .dir { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--accent-cyan); }
+  .nav-title { color: var(--text-primary); font-weight: 600; font-size: var(--fs-sm); }
+  @media (max-width: 560px) {
+    .post-nav { grid-template-columns: 1fr; }
+    .nav-item.next { text-align: left; }
+  }
+</style>

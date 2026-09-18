@@ -1,0 +1,48 @@
+---
+interface Props {
+  icon: string;
+  title: string;
+  description: string;
+  points?: string[];
+  href?: string;
+}
+const { icon, title, description, points = [], href = '/services/' } = Astro.props;
+---
+<article class="card service-card">
+  <div class="icon" aria-hidden="true" set:html={icon} />
+  <h3 class="title">{title}</h3>
+  <p class="desc">{description}</p>
+  {points.length > 0 && (
+    <ul class="points">
+      {points.map((p) => (
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>{p}</span>
+        </li>
+      ))}
+    </ul>
+  )}
+  <a href={href} class="learn">Learn more <span aria-hidden="true">→</span></a>
+</article>
+
+<style>
+  .service-card { display: flex; flex-direction: column; padding: clamp(1.5rem, 3vw, 2rem); height: 100%; }
+  .icon {
+    display: grid;
+    place-items: center;
+    width: 52px; height: 52px;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, rgba(34,211,238,0.15), rgba(139,92,246,0.15));
+    border: 1px solid var(--border-strong);
+    color: var(--accent-cyan);
+    margin-bottom: 1.25rem;
+  }
+  .icon :global(svg) { width: 26px; height: 26px; }
+  .title { font-size: var(--fs-lg); margin-bottom: 0.6rem; }
+  .desc { font-size: var(--fs-sm); margin-bottom: 1.1rem; }
+  .points { display: flex; flex-direction: column; gap: 0.55rem; margin-bottom: 1.4rem; }
+  .points li { display: flex; gap: 0.6rem; align-items: flex-start; font-size: var(--fs-sm); color: var(--text-secondary); }
+  .points svg { color: var(--success); flex-shrink: 0; margin-top: 3px; }
+  .learn { margin-top: auto; font-size: var(--fs-sm); font-weight: 600; }
+  .learn:hover span { padding-left: 3px; }
+</style>

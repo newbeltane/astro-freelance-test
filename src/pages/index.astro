@@ -1,0 +1,153 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import StatBar from '../components/StatBar.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { services } from '../data/services';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const usps = [
+  {
+    title: 'Speed as standard',
+    body: 'Every site is built for a green 100 on PageSpeed. Fast pages keep visitors engaged and rank better on Google.',
+    icon: '⚡',
+  },
+  {
+    title: 'Secure by design',
+    body: 'HTTPS, hardened security headers and Cloudflare\u2019s firewall come as standard — not as an afterthought.',
+    icon: '🛡️',
+  },
+  {
+    title: 'Built to be found',
+    body: 'Clean semantic markup, structured metadata and automatic sitemaps so search engines understand your site.',
+    icon: '🔍',
+  },
+];
+---
+
+<BaseLayout>
+  <Hero />
+  <StatBar />
+
+  <!-- Services -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">What I do</span>
+        <h2 class="section-title">Everything your website needs</h2>
+        <p class="section-intro">From first pixel to live on the edge — design, build, hosting and the ongoing work that keeps you ranking.</p>
+      </div>
+      <div class="grid grid-4">
+        {services.map((s) => (
+          <ServiceCard icon={s.icon} title={s.title} description={s.short} points={s.points.slice(0, 3)} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Why choose me -->
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">Why work with me</span>
+        <h2 class="section-title">A freelancer who sweats the details</h2>
+      </div>
+      <div class="grid grid-3">
+        {usps.map((u) => (
+          <article class="card usp">
+            <span class="usp-icon" aria-hidden="true">{u.icon}</span>
+            <h3>{u.title}</h3>
+            <p>{u.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">Kind words</span>
+        <h2 class="section-title">Trusted by small businesses &amp; charities</h2>
+      </div>
+      <div class="grid grid-2">
+        <TestimonialCard
+          quote="Our new site loads instantly and enquiries are up 40%. Genuinely the smoothest project we've run."
+          name="Sarah Bennett"
+          business="Bennett & Co. Accountancy"
+        />
+        <TestimonialCard
+          quote="They rebuilt our charity site on Astro and Cloudflare. It's fast, secure and we finally rank on Google."
+          name="Michael Osei"
+          business="Bright Futures Trust"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest posts -->
+  {posts.length > 0 && (
+    <section class="section" style="padding-top:0;">
+      <div class="container">
+        <div class="section-head center">
+          <span class="eyebrow">From the blog</span>
+          <h2 class="section-title">Guides &amp; insights</h2>
+        </div>
+        <div class="grid grid-3">
+          {posts.map((p) => (
+            <BlogCard
+              title={p.data.title}
+              excerpt={p.data.description}
+              date={p.data.pubDate}
+              tags={p.data.tags}
+              href={`/blog/${p.id}/`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CTA banner -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-banner">
+        <div>
+          <h2>Ready for a website that works as hard as you do?</h2>
+          <p>Tell me about your project and I'll get back to you within one working day with a plan and a quote.</p>
+        </div>
+        <a href="/pricing/" class="btn btn-primary">Get a Quote <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .usp { padding: clamp(1.5rem, 3vw, 2rem); }
+  .usp-icon { font-size: 1.8rem; display: block; margin-bottom: 0.9rem; }
+  .usp h3 { font-size: var(--fs-lg); margin-bottom: 0.5rem; }
+  .usp p { font-size: var(--fs-sm); }
+  .cta-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    padding: clamp(2rem, 5vw, 3.5rem);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-strong);
+    background:
+      radial-gradient(circle at 15% 20%, rgba(6,182,212,0.12), transparent 55%),
+      radial-gradient(circle at 85% 80%, rgba(139,92,246,0.12), transparent 55%),
+      var(--bg-card);
+  }
+  .cta-banner h2 { font-size: var(--fs-xl); margin-bottom: 0.5rem; max-width: 620px; }
+  .cta-banner p { font-size: var(--fs-base); max-width: 560px; }
+</style>

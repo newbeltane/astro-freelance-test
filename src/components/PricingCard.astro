@@ -1,0 +1,69 @@
+---
+interface Props {
+  name: string;
+  price: string;
+  period?: string;
+  description: string;
+  features: string[];
+  cta?: string;
+  href?: string;
+  popular?: boolean;
+}
+const {
+  name,
+  price,
+  period = 'one-off',
+  description,
+  features,
+  cta = 'Get started',
+  href = '/pricing/',
+  popular = false,
+} = Astro.props;
+---
+<article class:list={['card pricing-card', { popular }]}>
+  {popular && <span class="ribbon">Most popular</span>}
+  <h3 class="name">{name}</h3>
+  <p class="desc">{description}</p>
+  <div class="price">
+    <span class="amount">{price}</span>
+    <span class="period">/ {period}</span>
+  </div>
+  <a href={href} class:list={['btn', 'btn-block', popular ? 'btn-primary' : 'btn-secondary']}>{cta}</a>
+  <ul class="features">
+    {features.map((f) => (
+      <li>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>{f}</span>
+      </li>
+    ))}
+  </ul>
+</article>
+
+<style>
+  .pricing-card { position: relative; display: flex; flex-direction: column; padding: clamp(1.75rem, 3vw, 2.25rem); height: 100%; }
+  .pricing-card.popular {
+    border-color: var(--accent-cyan);
+    box-shadow: var(--shadow-glow);
+    background: var(--bg-card-hover);
+  }
+  .ribbon {
+    position: absolute;
+    top: -12px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--gradient-accent);
+    color: #04121f;
+    font-size: var(--fs-xs);
+    font-weight: 700;
+    padding: 0.3rem 0.9rem;
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+  }
+  .name { font-size: var(--fs-lg); margin-bottom: 0.4rem; }
+  .desc { font-size: var(--fs-sm); margin-bottom: 1.25rem; min-height: 2.6em; }
+  .price { display: flex; align-items: baseline; gap: 0.4rem; margin-bottom: 1.5rem; }
+  .amount { font-size: var(--fs-2xl); font-weight: 800; color: var(--text-primary); }
+  .period { font-size: var(--fs-sm); color: var(--text-muted); }
+  .features { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1.75rem; }
+  .features li { display: flex; gap: 0.6rem; align-items: flex-start; font-size: var(--fs-sm); }
+  .features svg { color: var(--success); flex-shrink: 0; margin-top: 3px; }
+</style>
