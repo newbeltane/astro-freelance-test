@@ -1,35 +1,64 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageEditIsland from '../components/tina/PageEditIsland.jsx';
-import { client } from '../../tina/__generated__/client';
 
-// Fetch pricing page content from Tina client
-const res = await client.queries.page({
-  relativePath: 'pricing.md',
-});
+const pricingTiers = [
+  {
+    name: 'Landing Page',
+    price: '£500',
+    description: 'Perfect for campaigns, coming soon pages, or single-service promotions.',
+    features: ['One-page design', 'Mobile responsive', 'Contact form', 'Basic SEO setup', 'Cloudflare hosting'],
+    cta: 'Get Started'
+  },
+  {
+    name: 'Small Business',
+    price: '£1,200',
+    description: 'A complete multi-page website to establish your brand online.',
+    features: ['Up to 5 pages', 'Custom design', 'CMS integration', 'Advanced SEO', 'Lightning fast performance'],
+    highlight: true,
+    cta: 'Get Started'
+  },
+  {
+    name: 'Custom Web App',
+    price: 'Custom',
+    description: 'Complex data-driven sites, portals, or bespoke digital products.',
+    features: ['Bespoke functionality', 'Database integration', 'User authentication', 'API connections', 'Scalable architecture'],
+    cta: 'Let\'s Talk'
+  }
+];
 ---
 
-<BaseLayout
-  title={res.data.page.title}
-  description={res.data.page.description || ""}
->
+<BaseLayout title="Pricing | Newbeltane Tech" description="Transparent, fixed-price web development services.">
   <section class="section-sm page-hero">
     <div class="container">
-      <div class="section-head max-w-2xl">
-        <span class="eyebrow">Investment</span>
+      <div class="text-center" style="text-align: center;">
+        <span class="eyebrow">Pricing</span>
+        <h1 class="page-title">Honest pricing, <span class="text-gradient">no surprises</span>.</h1>
+        <p class="lead" style="max-width: 60ch; margin: 0 auto;">
+          Fixed quotes and plain English. Choose a package below or request a custom quote tailored exactly to your needs.
+        </p>
       </div>
+    </div>
+  </section>
 
-      <!-- React Island handles title, description, and markdown tiers visually -->
-      <div class="card p-8 mb-12">
-        <PageEditIsland client:load {...res} />
-      </div>
-
-      <div class="cta-banner">
-        <div>
-          <h2>Have questions about a custom project?</h2>
-          <p>Get in touch and I'll help you figure out the best setup for your goals.</p>
-        </div>
-        <a href="mailto:contact@newbeltanetech.com" class="btn btn-primary">Contact Me <span aria-hidden="true">→</span></a>
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="pricing-grid">
+        {pricingTiers.map((tier) => (
+          <div class={`card pricing-card ${tier.highlight ? 'highlight' : ''}`}>
+            <h2 class="tier-name">{tier.name}</h2>
+            <div class="tier-price">{tier.price}</div>
+            <p class="tier-desc">{tier.description}</p>
+            <ul class="tier-features">
+              {tier.features.map((feature) => (
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="check-icon"><path d="M20 6L9 17l-5-5"/></svg>
+                  {feature}
+                </li>
+              ))}
+            </ul>
+            <a href="/quote/" class={`btn ${tier.highlight ? 'btn-primary' : 'btn-outline'}`}>{tier.cta}</a>
+          </div>
+        ))}
       </div>
     </div>
   </section>
@@ -37,29 +66,53 @@ const res = await client.queries.page({
 
 <style>
   .page-hero { padding-top: clamp(2.5rem, 6vw, 4rem); }
-  .max-w-2xl { max-width: 48rem; }
-  
-  .card :global(h1) { font-size: var(--fs-3xl); margin-bottom: 1rem; color: var(--text-primary); }
-  .card :global(h2) { font-size: var(--fs-xl); margin-bottom: 1rem; color: var(--text-primary); }
-  .card :global(h3) { font-size: var(--fs-lg); margin-top: 2rem; margin-bottom: 0.5rem; color: var(--accent-cyan); }
-  .card :global(p) { font-size: var(--fs-base); color: var(--text-secondary); margin-bottom: 0.5rem; line-height: 1.6; }
-  .card :global(ul) { margin-bottom: 1.5rem; padding-left: 1.25rem; color: var(--text-secondary); }
-  .card :global(li) { margin-bottom: 0.4rem; }
-  .card :global(strong) { color: var(--text-primary); }
-
-  .p-8 { padding: clamp(1.5rem, 3vw, 2.5rem); }
-  .mb-12 { margin-bottom: 3rem; }
-
-  .cta-banner {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 2rem; flex-wrap: wrap;
-    padding: clamp(2rem, 5vw, 3.5rem);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border-strong);
-    background:
-      radial-gradient(circle at 15% 20%, rgba(6,182,212,0.12), transparent 55%),
-      radial-gradient(circle at 85% 80%, rgba(139,92,246,0.12), transparent 55%),
-      var(--bg-card);
+  .page-title { font-size: var(--fs-3xl); margin: 0.75rem 0 1.25rem; }
+  .lead { font-size: var(--fs-lg); color: var(--text-secondary); margin-bottom: 2rem; }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
   }
-  .cta-banner h2 { font-size: var(--fs-xl); margin-bottom: 0.5rem; }
+  .pricing-card {
+    display: flex;
+    flex-direction: column;
+    padding: 2.5rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+    transition: transform 0.2s ease;
+  }
+  .pricing-card.highlight {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 8px 30px rgba(6,182,212,0.1);
+    transform: translateY(-5px);
+  }
+  .tier-name { font-size: var(--fs-xl); color: var(--text-primary); margin-bottom: 0.5rem; }
+  .tier-price { font-size: var(--fs-3xl); font-weight: 700; color: var(--text-primary); margin-bottom: 1rem; }
+  .tier-desc { color: var(--text-secondary); margin-bottom: 2rem; font-size: var(--fs-sm); line-height: 1.5; }
+  .tier-features { list-style: none; padding: 0; margin: 0 0 2.5rem 0; flex-grow: 1; }
+  .tier-features li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    font-size: var(--fs-sm);
+    color: var(--text-primary);
+  }
+  .check-icon { width: 18px; height: 18px; color: var(--accent-cyan); flex-shrink: 0; }
+  .btn {
+    display: inline-flex;
+    justify-content: center;
+    padding: 0.85rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    text-decoration: none;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+  }
+  .btn-primary { background: var(--text-primary); color: var(--bg-base); border: none; }
+  .highlight .btn-primary { background: var(--accent-cyan); color: #000; }
+  .btn-outline { background: transparent; border: 1px solid var(--border-strong); color: var(--text-primary); }
 </style>
