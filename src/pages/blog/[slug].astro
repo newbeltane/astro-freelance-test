@@ -1,6 +1,8 @@
 ---
-import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { client } from '../../../tina/__generated__/client';
+import BlogIsland from '../../components/BlogIsland.jsx';
 
 export async function getStaticPaths() {
   const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
@@ -8,7 +10,8 @@ export async function getStaticPaths() {
   );
 
   return posts.map((post, i) => ({
-    params: { slug: post.id },
+    // Safely generate the URL slug
+    params: { slug: post.slug || post.id.replace(/\.md$/, '') },
     props: {
       post,
       prev: posts[i + 1] ?? null,
@@ -24,22 +27,32 @@ interface Props {
 }
 
 const { post, prev, next } = Astro.props;
-const { Content } = await render(post);
-const { title, description, pubDate, updatedDate, tags, author } = post.data;
 
-const formatted = pubDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+// Bulletproof check to ensure Tina gets the exact filename with the .md extension
+const filename = post.id.endsWith('.md') ? post.id : `${post.id}.md`;
+
+const tinaProps = await client.queries.blog({ relativePath: filename });
+const { title, description, pubDate, tags, author } = tinaProps.data.blog;
+
+// Format the date string safely
+const dateObj = new Date(pubDate);
+const formatted = !isNaN(dateObj.getTime()) 
+  ? dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+  : '';
+
+// Keep the reading time logic from Astro's raw body
 const words = (post.body ?? "").trim().split(/\s+/).length;
 const readingTime = Math.max(1, Math.round(words / 200));
 ---
 
-<BaseLayout title={title} description={description} canonical={`/blog/${post.id}/`}>
+<BaseLayout title={title} description={description} canonical={`/blog/${post.slug || post.id}/`}>
   <article class="section-sm">
     <div class="container container-narrow">
       <a href="/blog/" class="back">← Back to blog</a>
 
       <header class="post-head">
         <div class="meta">
-          <time datetime={pubDate.toISOString()}>{formatted}</time>
+          {formatted && <time datetime={dateObj.toISOString()}>{formatted}</time>}
           <span aria-hidden="true">•</span>
           <span>{readingTime} min read</span>
           <span aria-hidden="true">•</span>
@@ -47,27 +60,25 @@ const readingTime = Math.max(1, Math.round(words / 200));
         </div>
         <h1 class="post-title">{title}</h1>
         <p class="post-desc">{description}</p>
-        {tags.length > 0 && (
+        {tags && tags.length > 0 && (
           <ul class="tags">
             {tags.map((t) => <li>{t}</li>)}
           </ul>
         )}
-        {updatedDate && <p class="updated">Updated {updatedDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>}
       </header>
 
-      <div class="prose">
-        <Content />
-      </div>
+      <!-- Here is the React Island powering the live visual editor -->
+      <BlogIsland {...tinaProps} client:only="react" />
 
       <nav class="post-nav" aria-label="More posts">
         {prev ? (
-          <a href={`/blog/${prev.id}/`} class="card nav-item prev">
+          <a href={`/blog/${prev.slug || prev.id.replace(/\.md$/, '')}/`} class="card nav-item prev">
             <span class="dir">← Previous</span>
             <span class="nav-title">{prev.data.title}</span>
           </a>
         ) : <span></span>}
         {next && (
-          <a href={`/blog/${next.id}/`} class="card nav-item next">
+          <a href={`/blog/${next.slug || next.id.replace(/\.md$/, '')}/`} class="card nav-item next">
             <span class="dir">Next →</span>
             <span class="nav-title">{next.data.title}</span>
           </a>
@@ -94,7 +105,6 @@ const readingTime = Math.max(1, Math.round(words / 200));
     text-transform: uppercase;
     letter-spacing: 0.06em;
   }
-  .updated { margin-top: 1rem; font-size: var(--fs-xs); color: var(--text-muted); }
   .post-nav {
     display: grid;
     grid-template-columns: 1fr 1fr;

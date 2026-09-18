@@ -9,7 +9,7 @@ const blog = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     tags: z.array(z.string()).default([]),
-    author: z.string().default('WebCraft'),
+    author: z.string().default('Steven Dale'),
     draft: z.boolean().default(false),
   }),
 });

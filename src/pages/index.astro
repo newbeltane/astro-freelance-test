@@ -6,7 +6,14 @@ import StatBar from '../components/StatBar.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
 import BlogCard from '../components/BlogCard.astro';
+import PageEditIsland from '../components/tina/PageEditIsland.jsx';
 import { services } from '../data/services';
+import { client } from '../../tina/__generated__/client';
+
+// Fetch home page content from Tina client
+const res = await client.queries.page({
+  relativePath: 'index.md',
+});
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -20,7 +27,7 @@ const usps = [
   },
   {
     title: 'Secure by design',
-    body: 'HTTPS, hardened security headers and Cloudflare\u2019s firewall come as standard — not as an afterthought.',
+    body: 'HTTPS, hardened security headers and Cloudflare’s firewall come as standard — not as an afterthought.',
     icon: '🛡️',
   },
   {
@@ -31,9 +38,14 @@ const usps = [
 ];
 ---
 
-<BaseLayout>
+<BaseLayout title={res.data.page.title} description={res.data.page.description || ""}>
   <Hero />
   <StatBar />
+
+  <!-- Homepage CMS Editable Intro -->
+  <section class="section-sm pb-0">
+    <PageEditIsland client:load {...res} />
+  </section>
 
   <!-- Services -->
   <section class="section" id="services">
@@ -130,6 +142,9 @@ const usps = [
 </BaseLayout>
 
 <style>
+  .page-title { font-size: var(--fs-3xl); margin-bottom: 1rem; }
+  .max-w-2xl { max-width: 48rem; margin: 0 auto; }
+  .lead { font-size: var(--fs-lg); color: var(--text-primary); }
   .usp { padding: clamp(1.5rem, 3vw, 2rem); }
   .usp-icon { font-size: 1.8rem; display: block; margin-bottom: 0.9rem; }
   .usp h3 { font-size: var(--fs-lg); margin-bottom: 0.5rem; }

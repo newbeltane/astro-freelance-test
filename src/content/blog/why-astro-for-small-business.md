@@ -1,9 +1,12 @@
 ---
-title: "Why Astro Is the Best Framework for Small Business Websites"
-description: "Astro ships zero JavaScript by default, so small business sites load instantly, rank higher and cost less to run. Here's why it's my framework of choice."
-pubDate: 2026-08-12
-tags: ["Astro", "Performance", "Small Business"]
-author: "WebCraft"
+title: Why Astro Is the Best Framework for Small Business Websites
+description: 'Astro ships zero JavaScript by default, so small business sites load instantly, rank higher and cost less to run. Here''s why it''s my framework of choice.'
+pubDate: 2026-08-12T00:00:00.000Z
+author: Steven Dale
+tags:
+  - Astro
+  - Performance
+  - Small Business
 ---
 
 If you run a small business, a charity or a personal brand, your website has one
@@ -28,9 +31,9 @@ site.
 Google uses Core Web Vitals as a ranking signal. Because Astro sites are mostly
 static HTML and CSS, they naturally score well on:
 
-- **LCP** (Largest Contentful Paint) — content is in the HTML, so it paints fast.
-- **CLS** (Cumulative Layout Shift) — no late-loading scripts shoving content around.
-- **INP** (Interaction to Next Paint) — barely any JavaScript to block the main thread.
+* **LCP** (Largest Contentful Paint) — content is in the HTML, so it paints fast.
+* **CLS** (Cumulative Layout Shift) — no late-loading scripts shoving content around.
+* **INP** (Interaction to Next Paint) — barely any JavaScript to block the main thread.
 
 ## Content is easy to manage
 

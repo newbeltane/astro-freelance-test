@@ -1,0 +1,168 @@
+---
+// Quote / Contact Page with Web3Forms integration
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Request a Quote | Newbeltane Tech" description="Get in touch for fast, secure, SEO-optimized freelance web design.">
+  <main class="quote-page container">
+    <div class="quote-header">
+      <h1>Let’s build something <span class="text-gradient">fast &amp; secure.</span></h1>
+      <p>Fill out the form below to request a project quote or ask a question. I'll get back to you promptly.</p>
+    </div>
+
+
+    <div class="form-wrapper">
+      <form action="https://api.web3forms.com/submit" method="POST" id="quote-form" class="quote-form">
+        
+        <!-- Web3Forms Access Key -->
+        <input type="hidden" name="access_key" value="999f9c12-52ef-4a5d-929d-3629cb329d27">
+        
+        <!-- Honeypot Spam Protection (Invisible to humans, catches bots) -->
+        <input type="checkbox" name="botcheck" class="hidden" style="display: none;" />
+
+        <div class="form-group">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" name="name" required placeholder="Jane Doe" />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required placeholder="jane@example.com" />
+        </div>
+
+        <div class="form-group">
+          <label for="package">Interested Package</label>
+          <select id="package" name="package">
+            <option value="Starter (£499)">Starter (£499)</option>
+            <option value="Small Organisation Site (£999)">Small Organisation Site (£999)</option>
+            <option value="Business Growth (£1,999)">Business Growth (£1,999)</option>
+            <option value="Custom Project">Custom Project / Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Project Details</label>
+          <textarea id="message" name="message" rows="5" required placeholder="Tell me a bit about your business and goals..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary submit-btn">Send Quote Request &rarr;</button>
+        
+        <div id="form-result" class="form-result"></div>
+      </form>
+    </div>
+  </main>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById('quote-form') as HTMLFormElement;
+  const result = document.getElementById('form-result') as HTMLDivElement;
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    result.style.display = 'block';
+    result.textContent = 'Sending...';
+
+    const formData = new FormData(form);
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: json
+      });
+      
+      const jsonResponse = await response.json();
+      
+      if (response.status === 200) {
+        result.textContent = "Thank you! Your message has been sent successfully.";
+        result.style.color = "var(--success)";
+        form.reset();
+      } else {
+        result.textContent = jsonResponse.message || "Something went wrong. Please try again.";
+        result.style.color = "#ff5f57";
+      }
+    } catch (error) {
+      console.error(error);
+      result.textContent = "Network error. Please check your connection and try again.";
+      result.style.color = "#ff5f57";
+    }
+  });
+</script>
+
+<style>
+  .quote-page {
+    max-width: 680px;
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+  .quote-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .quote-header h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 900;
+    margin-bottom: 1rem;
+  }
+  .quote-header p {
+    color: var(--text-secondary);
+    font-size: var(--fs-lg);
+  }
+  .form-wrapper {
+    background: var(--bg-card);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.5rem, 4vw, 3rem);
+    box-shadow: var(--shadow);
+  }
+  .quote-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .form-group label {
+    font-size: var(--fs-sm);
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1rem;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-cyan);
+  }
+  .submit-btn {
+    width: 100%;
+    margin-top: 1rem;
+    cursor: pointer;
+  }
+  .form-result {
+    display: none;
+    margin-top: 1rem;
+    text-align: center;
+    font-size: var(--fs-sm);
+    font-family: var(--font-mono);
+  }
+</style>

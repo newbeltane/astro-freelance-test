@@ -1,9 +1,12 @@
 ---
-title: "Why Your Website Should Be Hosted on Cloudflare"
-description: "Global edge delivery, free SSL, DDoS protection and generous free tiers. Here's why I deploy every client site to Cloudflare Pages."
-pubDate: 2026-09-10
-tags: ["Cloudflare", "Hosting", "Security"]
-author: "WebCraft"
+title: Why Your Website Should Be Hosted on Cloudflare
+description: 'Global edge delivery, free SSL, DDoS protection and generous free tiers. Here''s why I deploy every client site to Cloudflare Pages.'
+pubDate: 2026-09-10T00:00:00.000Z
+author: Steven Dale
+tags:
+  - Cloudflare
+  - Hosting
+  - Security
 ---
 
 Where you host your website matters just as much as how it's built. For small
@@ -25,9 +28,9 @@ forget.
 
 ## Enterprise-grade security for free
 
-- **DDoS protection** absorbs traffic floods before they reach your site.
-- **A Web Application Firewall** blocks common attacks.
-- **Security headers** (which I configure via a `_headers` file) lock down how
+* **DDoS protection** absorbs traffic floods before they reach your site.
+* **A Web Application Firewall** blocks common attacks.
+* **Security headers** (which I configure via a `_headers` file) lock down how
   your site can be embedded and what it's allowed to load.
 
 ## Brilliant value

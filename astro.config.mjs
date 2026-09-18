@@ -1,13 +1,14 @@
-// @ts-check
 import { defineConfig } from 'astro/config';
-import sitemap from '@astrojs/sitemap';
+import tina from '@tinacms/astro/integration';
+import { tinaAdminDevRedirect } from '@tinacms/astro/vite';
 
-// Replace with your production domain before deploying to Cloudflare Pages.
+import react from '@astrojs/react';
+
 export default defineConfig({
-  site: 'https://webcraft.example.com',
-  output: 'static',
-  integrations: [sitemap()],
-  build: {
-    inlineStylesheets: 'auto',
+  // We removed the 'server' output and node adapter to keep Abacus running statically
+  integrations: [tina(), react()],
+  vite: {
+    plugins: [tinaAdminDevRedirect()],
+    ssr: { noExternal: ['@tinacms/astro', '@tinacms/bridge'] },
   },
 });

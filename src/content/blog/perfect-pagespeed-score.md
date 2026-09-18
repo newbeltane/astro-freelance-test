@@ -1,9 +1,12 @@
 ---
-title: "How to Get a Perfect PageSpeed Score"
-description: "A practical, no-nonsense checklist for hitting 100/100 on Google PageSpeed Insights — the same process I use on every client website."
-pubDate: 2026-08-28
-tags: ["Performance", "SEO", "PageSpeed"]
-author: "WebCraft"
+title: How to Get a 100% PageSpeed Score
+description: 'A practical, no-nonsense checklist for hitting 100/100 on Google PageSpeed Insights — the same process I use on every client website.'
+pubDate: 2026-08-28T00:00:00.000Z
+author: Steven Dale
+tags:
+  - Performance
+  - SEO
+  - PageSpeed
 ---
 
 A perfect PageSpeed score isn't magic — it's the result of a series of
@@ -20,10 +23,10 @@ default, and only add interactivity where it earns its place.
 
 Images are usually the heaviest thing on a page. Always:
 
-- Serve modern formats (WebP or AVIF).
-- Size images to their display dimensions — don't send a 4000px photo to a 400px slot.
-- Add explicit `width` and `height` to prevent layout shift.
-- Lazy-load anything below the fold.
+* Serve modern formats (WebP or AVIF).
+* Size images to their display dimensions — don't send a 4000px photo to a 400px slot.
+* Add explicit `width` and `height` to prevent layout shift.
+* Lazy-load anything below the fold.
 
 ## 3. Self-host and preload fonts
 

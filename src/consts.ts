@@ -1,6 +1,6 @@
 // Site-wide constants. Edit these to rebrand the theme.
 export const SITE = {
-  name: 'WebCraft',
+  name: 'Newbeltane Tech',
   tagline: 'Fast, secure websites for small business',
   description:
     'Freelance web design & development for small businesses, charities and individuals. Lightning-fast, secure, SEO-ready Astro websites hosted on Cloudflare.',
