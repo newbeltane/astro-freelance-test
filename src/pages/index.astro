@@ -44,7 +44,11 @@ const usps = [
 
   <!-- Homepage CMS Editable Intro -->
   <section class="section-sm pb-0">
-    <PageEditIsland client:load {...res} />
+    <div class="container max-w-2xl">
+      <article class="card stack-comparison-card">
+        <PageEditIsland client:only="react" {...res} />
+      </article>
+    </div>
   </section>
 
   <!-- Services -->

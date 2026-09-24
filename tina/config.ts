@@ -1,6 +1,5 @@
 import { defineConfig } from "tinacms";
 
-// Your hosting provider likely exposes this as an environment variable
 const branch =
   process.env.GITHUB_BRANCH ||
   process.env.VERCEL_GIT_COMMIT_REF ||
@@ -9,10 +8,7 @@ const branch =
 
 export default defineConfig({
   branch,
-
-  // Get this from tina.io
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
-  // Get this from tina.io
   token: process.env.TINA_TOKEN,
 
   build: {
@@ -33,6 +29,7 @@ export default defineConfig({
         name: "blog",
         label: "Blog Posts",
         path: "src/content/blog",
+        format: "md",
         fields: [
           {
             type: "string",
@@ -57,10 +54,10 @@ export default defineConfig({
             label: "Author",
           },
           {
-            type: "string",
+            type: "string", // Fixed: changed from 'list' to 'string'
+            list: true,     // Fixed: added list property
             name: "tags",
             label: "Tags",
-            list: true,
           },
           {
             type: "rich-text",
@@ -71,7 +68,6 @@ export default defineConfig({
         ],
         ui: {
           router: ({ document }) => {
-            // This maps the CMS document to your actual Astro blog URL
             return `/blog/${document._sys.filename}`;
           },
         },
@@ -107,7 +103,49 @@ export default defineConfig({
             return `/${document._sys.filename}`;
           },
         },
-      }
+      },
+      {
+        name: "services",
+        label: "Services",
+        path: "src/data/services",
+        format: "json", // Fixed: changed from 'ts' to 'json' (Tina cannot edit .ts files)
+        fields: [
+          {
+            type: "string",
+            name: "serviceId",
+            label: "ID",
+            required: true,
+          },
+          {
+            type: "string",
+            name: "title",
+            label: "Title",
+            isTitle: true,
+            required: true,
+          },
+          {
+            type: "string",
+            name: "short",
+            label: "Short Description",
+          },
+          {
+            type: "string",
+            name: "description",
+            label: "Description",
+          },
+          {
+            type: "string",
+            name: "icon",
+            label: "Icon (SVG path)",
+          },
+          {
+            type: "string", // Fixed: changed from 'list' to 'string'
+            list: true,     // Fixed: added list property
+            name: "points",
+            label: "Key Points",
+          },
+        ],
+      },
     ],
   },
 });

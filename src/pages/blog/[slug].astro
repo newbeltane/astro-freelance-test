@@ -1,8 +1,6 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { client } from '../../../tina/__generated__/client';
-import BlogIsland from '../../components/BlogIsland.jsx';
 
 export async function getStaticPaths() {
   const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
@@ -28,12 +26,9 @@ interface Props {
 
 const { post, prev, next } = Astro.props;
 
-// Bulletproof check to ensure Tina gets the exact filename with the .md extension
-const filename = post.id.endsWith('.md') ? post.id : `${post.id}.md`;
-
-const tinaProps = await client.queries.blog({ relativePath: filename });
-const { title, description, pubDate, tags, author } = tinaProps.data.blog;
-
+// Pull data directly from Astro's native content collection instead of Tina
+const { title, description, pubDate, tags, author } = post.data;
+const { Content } = await render(post);
 // Format the date string safely
 const dateObj = new Date(pubDate);
 const formatted = !isNaN(dateObj.getTime()) 
@@ -67,8 +62,10 @@ const readingTime = Math.max(1, Math.round(words / 200));
         )}
       </header>
 
-      <!-- Here is the React Island powering the live visual editor -->
-      <BlogIsland {...tinaProps} client:only="react" />
+      <!-- Render the native Astro markdown instead of the Tina React Island -->
+      <div class="post-content">
+        <Content />
+      </div>
 
       <nav class="post-nav" aria-label="More posts">
         {prev ? (
@@ -105,6 +102,11 @@ const readingTime = Math.max(1, Math.round(words / 200));
     text-transform: uppercase;
     letter-spacing: 0.06em;
   }
+  .post-content { margin-top: 2rem; line-height: 1.7; color: var(--text-secondary); }
+  .post-content :global(h2) { font-size: var(--fs-xl); color: var(--text-primary); margin: 2rem 0 1rem; }
+  .post-content :global(h3) { font-size: var(--fs-lg); color: var(--text-primary); margin: 1.5rem 0 0.75rem; }
+  .post-content :global(p) { margin-bottom: 1.25rem; }
+  .post-content :global(a) { color: var(--accent-cyan); text-decoration: underline; }
   .post-nav {
     display: grid;
     grid-template-columns: 1fr 1fr;

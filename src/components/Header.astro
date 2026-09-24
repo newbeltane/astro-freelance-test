@@ -1,13 +1,14 @@
 ---
 // Header navigation component
 import { Image } from 'astro:assets';
+import ThemeSwitcher from './ThemeSwitcher.astro';
 
 const pathname = new URL(Astro.request.url).pathname;
 const currentPath = pathname.endsWith('/') && pathname !== '/' ? pathname.slice(0, -1) : pathname;
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
-  { href: '/services/', label: 'Services' },
+  { href: '/#services', label: 'Services' },
   { href: '/about/', label: 'About' },
   { href: '/blog/', label: 'Blog' },
   { href: '/pricing/', label: 'Pricing' },
@@ -22,7 +23,7 @@ function isActive(href: string) {
 <header class="site-header">
   <div class="container header-container">
     <a href="/" class="logo" aria-label="Newbeltane Tech Home">
-      <span class="logo-mark">W</span>
+      <img src="/favicon-96x96.png" alt="Newbeltane Tech Logo" width="32" height="32" />
       <span class="logo-text">Newbeltane Tech</span>
     </a>
 
@@ -40,7 +41,11 @@ function isActive(href: string) {
           </li>
         ))}
       </ul>
-      <a href="/quote/" class="btn btn-primary nav-cta">Get a Quote <span aria-hidden="true">&rarr;</span></a>
+      
+      <div class="nav-actions">
+        <ThemeSwitcher />
+        <a href="/quote/" class="btn btn-primary nav-cta">Get a Quote <span aria-hidden="true">&rarr;</span></a>
+      </div>
     </nav>
 
     <button
@@ -50,7 +55,7 @@ function isActive(href: string) {
       aria-expanded="false"
       aria-controls="primary-nav"
     >
-      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span>
     </button>
   </div>
 </header>
@@ -60,10 +65,10 @@ function isActive(href: string) {
     position: sticky;
     top: 0;
     z-index: 100;
-    background-color: rgba(11, 15, 25, 0.85);
-    backdrop-filter: blur(12px);
+    background-color: var(--bg-card);
     border-bottom: 1px solid var(--border);
     padding-block: 1rem;
+    transition: background-color var(--transition), border-color var(--transition);
   }
   .header-container {
     display: flex;
@@ -79,15 +84,7 @@ function isActive(href: string) {
     color: var(--text-primary);
     text-decoration: none;
   }
-  .logo-mark {
-    display: grid;
-    place-items: center;
-    width: 32px; height: 32px;
-    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-    color: white;
-    border-radius: var(--radius-sm);
-    font-weight: 800;
-  }
+
   .nav {
     display: flex;
     align-items: center;
@@ -99,6 +96,11 @@ function isActive(href: string) {
     padding: 0;
     margin: 0;
     gap: 1.5rem;
+  }
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
   }
   .nav-link {
     color: var(--text-secondary);
@@ -142,6 +144,27 @@ function isActive(href: string) {
     }
     .nav.is-open { display: flex; }
     .nav-list { flex-direction: column; align-items: center; width: 100%; }
+    .nav-actions { 
+      flex-direction: column; 
+      width: 100%; 
+      gap: 1.25rem; 
+      margin-top: 1rem; 
+    }
     .nav-cta { width: 100%; text-align: center; justify-content: center; }
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const navToggle = document.getElementById('nav-toggle');
+    const primaryNav = document.getElementById('primary-nav');
+
+    if (navToggle && primaryNav) {
+      navToggle.addEventListener('click', () => {
+        primaryNav.classList.toggle('is-open');
+        const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+        navToggle.setAttribute('aria-expanded', String(!isExpanded));
+      });
+    }
+  });
+</script>

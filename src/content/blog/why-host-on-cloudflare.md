@@ -1,48 +1,65 @@
 ---
-title: Why Your Website Should Be Hosted on Cloudflare
-description: 'Global edge delivery, free SSL, DDoS protection and generous free tiers. Here''s why I deploy every client site to Cloudflare Pages.'
-pubDate: 2026-09-10T00:00:00.000Z
+title: Why Host on Cloudflare
+description: 'The ultimate guide to hosting your website on Cloudflare Pages for speed, security, and peace of mind.'
+pubDate: 2026-10-01T00:00:00.000Z
 author: Steven Dale
 tags:
   - Cloudflare
   - Hosting
-  - Security
+  - Performance
+body: |
+  Choosing the right hosting for your website can make or break your online presence. Cloudflare Pages has become my go-to solution for deploying Astro sites, and here's why:
+
+  ## Global Edge Network
+
+  Cloudflare operates data centres in 300+ locations worldwide. Your visitors get served from the nearest location, meaning:
+
+  * **Faster load times** — content delivered from nearby edge locations
+  * **Better user experience** — lower latency, higher engagement
+  * **Improved SEO** — Core Web Vitals scores through the roof
+
+  ## Zero Configuration
+
+  Connect your GitHub repository, and you're done. Cloudflare Pages automatically:
+
+  * Builds your site on every push
+  * Deploys to a production URL
+  * Rolls back on errors
+
+  ## Free SSL & Security
+
+  Every site gets a free, automatically renewed SSL certificate. Plus:
+
+  * **DDoS protection** — stay safe from attacks
+  * **WAF (Web Application Firewall)** — block malicious traffic
+  * **Bot management** — stop spam and scrapers
+
+  ## Performance Features
+
+  * **Argo Smart Routing** — optimise routes for speed (paid add-on)
+  * **Cache everything** — static assets cached at the edge
+  * **Universal SSL** — free SSL for all subdomains
+
+  ## Pricing
+
+  * **Free tier** — up to 100GB bandwidth/month
+  * **Pro tier** — unlimited bandwidth, higher limits
+  * **Enterprise** — custom limits and support
+
+  ## Get Started
+
+  1. Push your Astro site to GitHub
+  2. Create a project in Cloudflare Pages
+  3. Connect your repo and deploy
+  4. Done! Your site is live.
+
+  ## Why It Matters for Freelancers
+
+  As a freelancer, you want your clients' sites to be fast, secure, and reliable without you worrying about servers, scaling, or maintenance. Cloudflare Pages gives you all that — for free on the starter tier.
+
+  Hosting on Cloudflare Pages means you can focus on building great content, not worrying about servers, scaling, or maintenance.
+
+  ## Ready to Get Started?
+
+  [Get in touch](/contact) and let's get your site on the edge.
 ---
-
-Where you host your website matters just as much as how it's built. For small
-business and charity sites, I deploy to **Cloudflare Pages** almost every time.
-Here's why.
-
-## Served from the edge, everywhere
-
-Cloudflare has data centres in hundreds of cities worldwide. Your static site is
-cached at every one of them, so a visitor in Manchester and a visitor in
-Melbourne both get your pages from a server just down the road. That's the
-foundation of a genuinely fast experience.
-
-## Free, automatic SSL
-
-Every site gets a valid HTTPS certificate automatically, renewed forever, at no
-cost. Secure by default — no annual certificate fees, no manual renewals to
-forget.
-
-## Enterprise-grade security for free
-
-* **DDoS protection** absorbs traffic floods before they reach your site.
-* **A Web Application Firewall** blocks common attacks.
-* **Security headers** (which I configure via a `_headers` file) lock down how
-  your site can be embedded and what it's allowed to load.
-
-## Brilliant value
-
-Cloudflare's free tier comfortably covers most small business sites — unlimited
-bandwidth, unlimited requests. As you grow, paid plans stay very affordable.
-
-## Built for modern frameworks
-
-Cloudflare Pages connects straight to your Git repository and rebuilds your
-Astro site on every push. Preview deployments let you review changes before they
-go live. It's a clean, modern workflow with no server to patch or maintain.
-
-> Fast, secure, resilient and cost-effective — Cloudflare ticks every box I care
-> about when I put a client's site into the world.

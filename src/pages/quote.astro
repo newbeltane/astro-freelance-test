@@ -10,7 +10,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <p>Fill out the form below to request a project quote or ask a question. I'll get back to you promptly.</p>
     </div>
 
-
     <div class="form-wrapper">
       <form action="https://api.web3forms.com/submit" method="POST" id="quote-form" class="quote-form">
         
@@ -31,12 +30,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
 
         <div class="form-group">
+          <label for="phone">Phone Number (Optional)</label>
+          <input type="tel" id="phone" name="phone" placeholder="07700 900077" />
+        </div>
+
+        <div class="form-group">
           <label for="package">Interested Package</label>
           <select id="package" name="package">
-            <option value="Starter (£499)">Starter (£499)</option>
-            <option value="Small Organisation Site (£999)">Small Organisation Site (£999)</option>
-            <option value="Business Growth (£1,999)">Business Growth (£1,999)</option>
-            <option value="Custom Project">Custom Project / Other</option>
+            <option value="Landing Page (£299)">Landing Page (£299)</option>
+            <option value="Multi-page site (£499)">Multi-page site (£499)</option>
+            <option value="Custom Web App">Custom Web App</option>
+            <option value="Site Maintenance (£49/mo)">Site Maintenance (£49/mo)</option>
+            <option value="Other Enquiry">Other Enquiry</option>
           </select>
         </div>
 
@@ -151,7 +156,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .form-group select:focus,
   .form-group textarea:focus {
     outline: none;
-    border-color: var(--accent-cyan);
+    border-color: var(--accent-purple);
   }
   .submit-btn {
     width: 100%;

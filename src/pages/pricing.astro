@@ -4,16 +4,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const pricingTiers = [
   {
     name: 'Landing Page',
-    price: '£500',
+    price: '£299',
     description: 'Perfect for campaigns, coming soon pages, or single-service promotions.',
-    features: ['One-page design', 'Mobile responsive', 'Contact form', 'Basic SEO setup', 'Cloudflare hosting'],
+    features: ['One-page design', 'Mobile responsive', 'Contact form', 'Basic SEO setup', 'Cloudflare Hosting Setup'],
     cta: 'Get Started'
   },
   {
-    name: 'Small Business',
-    price: '£1,200',
+    name: 'Multi-page site',
+    price: '£499',
     description: 'A complete multi-page website to establish your brand online.',
-    features: ['Up to 5 pages', 'Custom design', 'CMS integration', 'Advanced SEO', 'Lightning fast performance'],
+    features: ['Up to 5 pages', 'Custom design', 'CMS integration', 'Advanced SEO', 'Lightning fast performance', 'Cloudflare Hosting Setup'],
     highlight: true,
     cta: 'Get Started'
   },
@@ -23,6 +23,13 @@ const pricingTiers = [
     description: 'Complex data-driven sites, portals, or bespoke digital products.',
     features: ['Bespoke functionality', 'Database integration', 'User authentication', 'API connections', 'Scalable architecture'],
     cta: 'Let\'s Talk'
+  },
+  {
+    name: 'Site Maintenance',
+    price: '£49/mo',
+    description: 'Peace of mind with ongoing support, proactive monitoring, and minor updates.',
+    features: ['24/7 uptime monitoring', 'Monthly security checks', 'Up to 1 hour of minor updates', 'Priority email support', 'Rolling 30-day contract'],
+    cta: 'Subscribe'
   }
 ];
 ---
@@ -56,9 +63,19 @@ const pricingTiers = [
                 </li>
               ))}
             </ul>
-            <a href="/quote/" class={`btn ${tier.highlight ? 'btn-primary' : 'btn-outline'}`}>{tier.cta}</a>
+            <a href="/quote/" class="btn btn-primary">{tier.cta}</a>
           </div>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="ad-hoc-box">
+        <h3>Need more time?</h3>
+        <p>If you need more involved updates beyond the 1-hour monthly allowance—such as designing new pages, writing copy, or adding complex features—additional development is billed at a simple rate of <strong>£49 per hour</strong>.</p>
+        <p>For larger additions, I am always happy to provide a fixed-price quote upfront so you know exactly what to expect before work begins.</p>
       </div>
     </div>
   </section>
@@ -70,9 +87,10 @@ const pricingTiers = [
   .lead { font-size: var(--fs-lg); color: var(--text-secondary); margin-bottom: 2rem; }
   .pricing-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
     margin-top: 3rem;
+    margin-bottom: 4rem;
   }
   .pricing-card {
     display: flex;
@@ -101,18 +119,28 @@ const pricingTiers = [
     color: var(--text-primary);
   }
   .check-icon { width: 18px; height: 18px; color: var(--accent-cyan); flex-shrink: 0; }
-  .btn {
-    display: inline-flex;
-    justify-content: center;
-    padding: 0.85rem 1.5rem;
-    border-radius: var(--radius-md);
-    font-weight: 600;
-    text-decoration: none;
-    width: 100%;
+  
+  .ad-hoc-box {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2.5rem;
     text-align: center;
-    cursor: pointer;
+    background: var(--bg-card);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
   }
-  .btn-primary { background: var(--text-primary); color: var(--bg-base); border: none; }
-  .highlight .btn-primary { background: var(--accent-cyan); color: #000; }
-  .btn-outline { background: transparent; border: 1px solid var(--border-strong); color: var(--text-primary); }
+  .ad-hoc-box h3 {
+    font-size: var(--fs-xl);
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+  .ad-hoc-box p {
+    color: var(--text-secondary);
+    font-size: var(--fs-base);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  .ad-hoc-box p:last-child {
+    margin-bottom: 0;
+  }
 </style>

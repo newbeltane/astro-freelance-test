@@ -1,12 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageEditIsland from '../components/tina/PageEditIsland.jsx';
-import { client } from '../../tina/__generated__/client';
-
-// Fetch initial data from Tina client
-const res = await client.queries.page({
-  relativePath: 'about.md',
-});
 
 const stack = ['Astro', 'Cloudflare', 'TypeScript', 'HTML5', 'CSS3', 'JavaScript', 'Git', 'Figma', 'Markdown', 'SEO'];
 
@@ -30,17 +23,24 @@ const values = [
 ];
 ---
 
-<BaseLayout title={res.data.page.title} description={res.data.page.description}>
+<BaseLayout title="About | Newbeltane Tech" description="Fast, reliable web development and consulting services.">
   <section class="section-sm page-hero">
     <div class="container about-intro">
-      <!-- React Island handles the live visual editing state -->
-      <PageEditIsland client:load {...res} />
+      
+      <div>
+        <span class="eyebrow">About Newbeltane Tech</span>
+        <h1 class="page-title">Hi, I build <span class="text-gradient">fast websites</span> for good people.</h1>
+        <p class="lead">
+          I'm a freelance web designer and developer. I help small businesses, charities, and individuals get online with websites that are genuinely fast, secure, and easy to find on Google.
+        </p>
+        <p class="lead">
+          I specialise in a modern approach: static sites built with <strong>Astro</strong> and deployed to <strong>Cloudflare's</strong> global edge network.
+        </p>
+      </div>
 
       <div class="intro-visual" aria-hidden="true">
         <div class="avatar-card card">
-          <div class="avatar-photo">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
-          </div>
+          <img src="/me.webp" alt="Steven Dale" class="avatar-photo" />
           <p class="avatar-name">Steven Dale</p>
           <p class="avatar-role">Freelance Web Designer &amp; Developer</p>
         </div>
@@ -86,14 +86,13 @@ const values = [
           <h2>Let's build something fast together.</h2>
           <p>Get in touch and I'll reply within one working day.</p>
         </div>
-        <a href="/pricing/" class="btn btn-primary">Get a Quote <span aria-hidden="true">→</span></a>
+        <a href="/quote/" class="btn btn-primary">Get a Quote <span aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  /* keep your existing styles here */
   .page-hero { padding-top: clamp(2.5rem, 6vw, 4rem); }
   .about-intro { display: grid; grid-template-columns: 1.4fr 0.6fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
   .page-title { font-size: var(--fs-3xl); margin: 0.75rem 0 1.25rem; }
@@ -102,12 +101,10 @@ const values = [
   .avatar-photo {
     width: 120px; height: 120px; margin: 0 auto 1.25rem;
     border-radius: 50%;
-    display: grid; place-items: center;
-    background: linear-gradient(135deg, rgba(34,211,238,0.15), rgba(139,92,246,0.15));
     border: 1px solid var(--border-strong);
-    color: var(--accent-cyan);
+    object-fit: cover;
+    display: block;
   }
-  .avatar-photo svg { width: 60px; height: 60px; }
   .avatar-name { font-weight: 700; color: var(--text-primary); font-size: var(--fs-lg); }
   .avatar-role { font-size: var(--fs-sm); color: var(--text-muted); }
   .stack { display: flex; flex-wrap: wrap; gap: 0.75rem; }

@@ -13,4 +13,8 @@ npm-debug.log*
 .DS_Store
 
 node_modules
-tina/__generated__
+tina/__generated__# Kilo AI workspace
+.kilo/
+.wrangler/
+.github/workflows/tinacms.yml
+.wrangler/

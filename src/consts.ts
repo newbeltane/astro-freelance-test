@@ -1,12 +1,12 @@
 // Site-wide constants. Edit these to rebrand the theme.
 export const SITE = {
-  name: 'Newbeltane Tech',
+  name: 'Steven Dale',
   tagline: 'Fast, secure websites for small business',
   description:
     'Freelance web design & development for small businesses, charities and individuals. Lightning-fast, secure, SEO-ready Astro websites hosted on Cloudflare.',
-  author: 'WebCraft',
-  email: 'hello@webcraft.example.com',
-  url: 'https://webcraft.example.com',
+  author: 'Steven Dale',
+  email: 'hello@stevendale.dev',
+  url: 'https://stevendale.dev',
 };
 
 export const NAV_LINKS = [
@@ -18,7 +18,7 @@ export const NAV_LINKS = [
 ];
 
 export const SOCIALS = {
-  github: 'https://github.com/',
-  linkedin: 'https://linkedin.com/',
-  twitter: 'https://x.com/',
+  github: 'https://github.com/stevendale',
+  linkedin: 'https://linkedin.com/in/stevendale',
+  twitter: 'https://x.com/stevendale',
 };

@@ -1,32 +1,32 @@
 /* ==========================================================================
    WebCraft — Design System
-   Dark, tech-forward aesthetic for a freelance web studio.
+   Theme Variables (Light, Dark, and High Contrast)
    ========================================================================== */
 
-:root {
-  /* Colour palette */
-  --bg-primary: #080c14;
-  --bg-secondary: #0f1623;
-  --bg-card: #141d2e;
-  --bg-card-hover: #182338;
+/* 1. Default (Light Mode) */
+:root,
+[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
 
-  --accent-cyan: #06b6d4;
-  --accent-blue: #3b82f6;
-  --accent-purple: #8b5cf6;
+  --accent-cyan: #0891b2;
+  --accent-blue: #2563eb;
+  --accent-purple: #7c3aed;
 
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
+  --text-primary: #020617; /* Darkened for higher contrast */
+  --text-secondary: #334155; /* Darkened to easily pass WCAG AA on white */
   --text-muted: #64748b;
 
-  --border: #1e2d45;
-  --border-strong: #2a3d5c;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
 
-  --success: #22c55e;
-  --star: #fbbf24;
+  --success: #16a34a;
+  --star: #f59e0b;
 
-  /* Gradients */
-  --gradient-accent: linear-gradient(120deg, #22d3ee 0%, #3b82f6 45%, #8b5cf6 100%);
-  --gradient-glow: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.18), transparent 60%);
+  --gradient-accent: linear-gradient(120deg, #0891b2 0%, #2563eb 45%, #7c3aed 100%);
+  --gradient-glow: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.08), transparent 60%);
 
   /* Fluid typography scale */
   --fs-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
@@ -58,6 +58,57 @@
   --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* 2. Dark Mode */
+[data-theme="dark"] {
+  --bg-primary: #080c14;
+  --bg-secondary: #0f1623;
+  --bg-card: #141d2e;
+  --bg-card-hover: #182338;
+
+  --accent-cyan: #06b6d4;
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
+
+  --text-primary: #ffffff; /* Brightened to pure white for headers */
+  --text-secondary: #cbd5e1; /* Brightened significantly to pass WCAG AA on dark cards */
+  --text-muted: #94a3b8;
+
+  --border: #1e2d45;
+  --border-strong: #2a3d5c;
+
+  --success: #22c55e;
+  --star: #fbbf24;
+
+  --gradient-accent: linear-gradient(120deg, #22d3ee 0%, #3b82f6 45%, #8b5cf6 100%);
+  --gradient-glow: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.18), transparent 60%);
+}
+
+/* 3. High Contrast Mode */
+[data-theme="high-contrast"] {
+  --bg-primary: #000000;
+  --bg-secondary: #000000;
+  --bg-card: #000000;
+  --bg-card-hover: #000000;
+
+  --accent-cyan: #ffff00;
+  --accent-blue: #ffff00;
+  --accent-purple: #ffff00;
+
+  --text-primary: #ffffff;
+  --text-secondary: #ffff00;
+  --text-muted: #ffffff;
+
+  --border: #ffffff;
+  --border-strong: #ffffff;
+
+  --success: #00ff00;
+  --star: #ffff00;
+
+  --gradient-accent: linear-gradient(120deg, #ffff00 0%, #ffff00 100%);
+  --gradient-glow: radial-gradient(circle at 50% 0%, transparent, transparent);
+}
+
+
 /* ---------- Reset ---------- */
 *,
 *::before,
@@ -75,7 +126,7 @@ html {
 body {
   font-family: var(--font-sans);
   font-size: var(--fs-base);
-  line-height: 1.65;
+  line-height: 1.5;
   color: var(--text-secondary);
   background-color: var(--bg-primary);
   background-image: var(--gradient-glow);
@@ -169,12 +220,12 @@ button { font-family: inherit; cursor: pointer; }
   padding: 0.5rem 1.1rem;
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-pill);
-  background: rgba(20, 29, 46, 0.6);
+  background: var(--bg-secondary);
   font-family: var(--font-mono);
   font-size: var(--fs-xs);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
 .badge .dot {
@@ -198,22 +249,34 @@ button { font-family: inherit; cursor: pointer; }
   align-items: center;
   gap: 0.55rem;
   padding: 0.85rem 1.6rem;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-pill);
   font-weight: 600;
   font-size: var(--fs-sm);
   border: 1px solid transparent;
-  transition: transform var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition);
+  transition: transform var(--transition), box-shadow var(--transition);
   white-space: nowrap;
+  justify-content: center;
 }
 
 .btn-primary {
-  background: var(--gradient-accent);
-  color: #04121f;
+  background: var(--accent-purple);
+  color: #ffffff;
 }
+
+/* Accessibility Fix: Force black text on the yellow High Contrast buttons */
+[data-theme="high-contrast"] .btn-primary {
+  color: #000000;
+}
+
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-glow);
-  color: #04121f;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+/* Remove purple glow in high contrast mode to keep it crisp */
+[data-theme="high-contrast"] .btn-primary:hover {
+  box-shadow: none;
+  border: 1px solid #ffffff;
 }
 
 .btn-secondary {
@@ -223,7 +286,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .btn-secondary:hover {
   background: var(--bg-card);
-  border-color: var(--accent-cyan);
+  border-color: var(--accent-purple);
   color: var(--text-primary);
   transform: translateY(-2px);
 }
@@ -241,6 +304,27 @@ button { font-family: inherit; cursor: pointer; }
   transform: translateY(-4px);
   border-color: var(--border-strong);
   background: var(--bg-card-hover);
+}
+
+.stack-comparison-card {
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.stack-comparison-card p {
+  font-size: var(--fs-base);
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+  color: var(--text-secondary);
+}
+
+.stack-comparison-card p:last-of-type {
+  margin-bottom: 0;
+}
+
+.stack-comparison-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
 }
 
 /* ---------- Grid helpers ---------- */

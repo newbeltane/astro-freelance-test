@@ -1,0 +1,72 @@
+---
+// src/components/ThemeSwitcher.astro
+---
+<div class="theme-switcher">
+  <!-- Visually hidden label for screen readers -->
+  <label for="theme-select" class="sr-only">Choose visual theme</label>
+  
+  <select id="theme-select" class="theme-select">
+    <option value="light">Light</option>
+    <option value="dark">Dark</option>
+    <option value="high-contrast">High Contrast</option>
+  </select>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const select = document.getElementById('theme-select') as HTMLSelectElement;
+    if (!select) return;
+    
+    // Set the dropdown to match the current theme on load
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    select.value = currentTheme;
+
+    // Listen for changes
+    select.addEventListener('change', (e) => {
+      const target = e.target as HTMLSelectElement;
+      const newTheme = target.value;
+      
+      // Update HTML attribute and save to local storage
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    });
+  });
+</script>
+
+<style>
+  .theme-switcher {
+    display: flex;
+    align-items: center;
+  }
+  
+  .theme-select {
+    background-color: var(--bg-card, #ffffff);
+    color: var(--text-primary, #111827);
+    border: 1px solid var(--border-strong, #d1d5db);
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-sm, 4px);
+    font-size: var(--fs-sm, 0.875rem);
+    cursor: pointer;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .theme-select:focus-visible {
+    border-color: var(--accent-cyan, #06b6d4);
+    box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.3);
+  }
+
+  /* Screen reader only utility class */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+</style>
