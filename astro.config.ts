@@ -17,7 +17,7 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
   hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
 
 export default defineConfig({
-  site: 'https://newbeltane.co.uk',
+    site: 'https://newbeltane.co.uk',
 
   output: 'static',
   adapter: cloudflare(),
@@ -121,11 +121,12 @@ export default defineConfig({
     },
   },
 
-  vite: {
+    vite: {
     plugins: [tailwindcss()],
     resolve: {
       alias: {
         '~': path.resolve(__dirname, './src'),
+        '@tina': path.resolve(__dirname, './tina'),
       },
       dedupe: ['react', 'react-dom'],
     },

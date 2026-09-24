@@ -8,7 +8,8 @@ import TestimonialCard from '../components/TestimonialCard.astro';
 import BlogCard from '../components/BlogCard.astro';
 import PageEditIsland from '../components/tina/PageEditIsland.jsx';
 import { services } from '../data/services';
-import { client } from '../../tina/__generated__/client';
+import { client } from "../../tina/__generated__/client";
+
 
 // Fetch home page content from Tina client
 const res = await client.queries.page({
