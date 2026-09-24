@@ -1,0 +1,26 @@
+fragment BlogParts on Blog {
+  __typename
+  title
+  description
+  pubDate
+  author
+  tags
+  body
+}
+
+fragment PageParts on Page {
+  __typename
+  title
+  description
+  body
+}
+
+fragment ServicesParts on Services {
+  __typename
+  serviceId
+  title
+  short
+  description
+  icon
+  points
+}

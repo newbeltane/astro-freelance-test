@@ -1,20 +1,27 @@
 # build output
 dist/
+
 # dependencies
 node_modules/
+
 # generated types
 .astro/
+
 # logs
 npm-debug.log*
+
 # environment
 .env
 .env.production
+
 # macOS
 .DS_Store
 
-node_modules
-tina/__generated__# Kilo AI workspace
+# Kilo AI workspace
 .kilo/
+
+# Wrangler
 .wrangler/
+
+# Prevent Tina workflow recreation
 .github/workflows/tinacms.yml
-.wrangler/
