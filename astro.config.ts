@@ -22,11 +22,14 @@ export default defineConfig({
   output: 'static',
   adapter: cloudflare(),
 
-  // Prefetch links as they enter the viewport for snappier navigations
+export default defineConfig({
+  // ... other config ...
   prefetch: {
-    prefetchAll: true,
-    defaultStrategy: 'viewport',
-  },
+    prefetchAll: false,
+    defaultStrategy: 'hover'
+  }
+});
+
 
   // Native Fonts API: self-hosts + subsets + preloads Inter and generates
   // metric-adjusted fallbacks. Injected via <Font /> in Layout.astro and
