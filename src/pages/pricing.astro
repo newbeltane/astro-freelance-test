@@ -49,7 +49,7 @@ const pricingTiers = [
 
   <section class="section" style="padding-top:0;">
     <div class="container">
-      <div class="pricing-grid">
+      <div class="pricing-flex-grid">
         {pricingTiers.map((tier) => (
           <div class={`card pricing-card ${tier.highlight ? 'highlight' : ''}`}>
             <h2 class="tier-name">{tier.name}</h2>
@@ -85,13 +85,28 @@ const pricingTiers = [
   .page-hero { padding-top: clamp(2.5rem, 6vw, 4rem); }
   .page-title { font-size: var(--fs-3xl); margin: 0.75rem 0 1.25rem; }
   .lead { font-size: var(--fs-lg); color: var(--text-secondary); margin-bottom: 2rem; }
-  .pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  
+  /* Replaced standard CSS Grid with Custom Flex Grid */
+  .pricing-flex-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 2rem;
     margin-top: 3rem;
     margin-bottom: 4rem;
   }
+  .pricing-flex-grid > .pricing-card {
+    flex: 0 1 calc(33.333% - 1.35rem);
+    min-width: 280px;
+  }
+  
+  /* Make it 1 column on mobile devices */
+  @media (max-width: 768px) {
+    .pricing-flex-grid > .pricing-card {
+      flex: 0 1 100%;
+    }
+  }
+
   .pricing-card {
     display: flex;
     flex-direction: column;
