@@ -5,7 +5,7 @@
   Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
   X-XSS-Protection: 1; mode=block
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self' 'unsafe-inline' https://*.tinajs.io; connect-src 'self' https://*.tinajs.io; object-src 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; form-action 'self' https://api.web3forms.com; frame-ancestors 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self' 'unsafe-inline' https://*.tinajs.io; connect-src 'self' https://*.tinajs.io https://api.web3forms.com; object-src 'none'; upgrade-insecure-requests
 
 # Long-cache immutable build assets
 /_astro/*
