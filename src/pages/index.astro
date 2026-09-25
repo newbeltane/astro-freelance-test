@@ -60,7 +60,7 @@ const usps = [
         <h2 class="section-title">Everything your website needs</h2>
         <p class="section-intro">From first pixel to live on the edge — design, build, hosting and the ongoing work that keeps you ranking.</p>
       </div>
-      <div class="grid grid-4">
+      <div class="services-flex-grid">
         {services.map((s) => (
           <ServiceCard icon={s.icon} title={s.title} description={s.short} points={s.points.slice(0, 3)} />
         ))}
@@ -96,14 +96,14 @@ const usps = [
       </div>
       <div class="grid grid-2">
         <TestimonialCard
-          quote="Our new site loads instantly and enquiries are up 40%. Genuinely the smoothest project we've run."
-          name="Sarah Bennett"
-          business="Bennett & Co. Accountancy"
+          quote="Steve has always proved helpful & professional with IT problems. His expertise has been invaluable."
+          name="Zvonimir Miljkovic"
+          business="Freelancer, Germany"
         />
         <TestimonialCard
-          quote="They rebuilt our charity site on Astro and Cloudflare. It's fast, secure and we finally rank on Google."
-          name="Michael Osei"
-          business="Bright Futures Trust"
+          quote="Steve helped me master Squarespace for our nonprofit's website. He was patient, highly flexible, and even taught me online marketing basics about layout and design."
+          name="Therese Murphy"
+          business="NGO, Florida"
         />
       </div>
     </div>
@@ -170,4 +170,24 @@ const usps = [
   }
   .cta-banner h2 { font-size: var(--fs-xl); margin-bottom: 0.5rem; max-width: 620px; }
   .cta-banner p { font-size: var(--fs-base); max-width: 560px; }
+  
+  /* Custom Flex Grid for 5 Services */
+  .services-flex-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+  }
+  .services-flex-grid > :global(*) {
+    /* 0 means don't grow, 1 means it can shrink, calc ensures a perfect 3-column layout minus the gap */
+    flex: 0 1 calc(33.333% - 1.35rem); 
+    min-width: 280px; /* Prevents cards from getting too squeezed before wrapping */
+  }
+  
+  /* Make it 1 column on mobile devices */
+  @media (max-width: 768px) {
+    .services-flex-grid > :global(*) {
+      flex: 0 1 100%;
+    }
+  }
 </style>
