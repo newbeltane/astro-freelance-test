@@ -17,24 +17,20 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
   hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
 
 export default defineConfig({
-    site: 'https://newbeltane.co.uk',
-
+  site: 'https://newbeltane.co.uk',
   output: 'static',
   adapter: cloudflare(),
 
-export default defineConfig({
-  // ... other config ...
   prefetch: {
     prefetchAll: false,
-    defaultStrategy: 'hover'
-  }
-});
-
+    defaultStrategy: 'hover',
+  },
 
   // Native Fonts API: self-hosts + subsets + preloads Inter and generates
   // metric-adjusted fallbacks. Injected via <Font /> in Layout.astro and
   // consumed through the `--font-inter` CSS variable in CustomStyles.astro.
   fonts: [
+
     {
       provider: fontProviders.fontsource(),
       name: 'Inter',
