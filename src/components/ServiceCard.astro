@@ -4,7 +4,6 @@ interface Props {
   title: string;
   description: string;
   points?: string[];
-  href?: string;
 }
 const { icon, title, description, points = [], href = '/services/' } = Astro.props;
 ---
@@ -22,7 +21,6 @@ const { icon, title, description, points = [], href = '/services/' } = Astro.pro
       ))}
     </ul>
   )}
-  <a href={href} class="learn">Learn more <span aria-hidden="true">→</span></a>
 </article>
 
 <style>
