@@ -1,6 +1,6 @@
 {
 	"$schema": "./node_modules/wrangler/config-schema.json",
-	"compatibility_date": "2026-09-18",
+	"compatibility_date": "2026-10-07",
 	"compatibility_flags": ["global_fetch_strictly_public"],
 	"name": "astro-freelance-theme",
 	"main": "@astrojs/cloudflare/entrypoints/server",
