@@ -1,4 +1,6 @@
 ---
+import TinaPost from '../../components/blog/TinaPost';
+import { client } from '../../../tina/__generated__/client';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
@@ -28,6 +30,7 @@ const { post, prev, next } = Astro.props;
 
 // Pull data directly from Astro's native content collection instead of Tina
 const { title, description, pubDate, tags, author } = post.data;
+const tinaPost = await client.queries.blog({ relativePath: post.id });
 const { Content } = await render(post);
 // Format the date string safely
 const dateObj = new Date(pubDate);
@@ -62,10 +65,12 @@ const readingTime = Math.max(1, Math.round(words / 200));
         )}
       </header>
 
-      <!-- Render the native Astro markdown instead of the Tina React Island -->
-      <div class="post-content">
-        <Content />
-      </div>
+     <TinaPost
+  client:load
+  query={tinaPost.query}
+  variables={tinaPost.variables}
+  data={tinaPost.data}
+/>
 
       <nav class="post-nav" aria-label="More posts">
         {prev ? (
