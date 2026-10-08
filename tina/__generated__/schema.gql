@@ -99,7 +99,7 @@ union DocumentNode = Blog | Page | Services | Folder
 type Blog implements Node & Document {
   title: String!
   description: String
-  pubDate: String
+  pubDate: String!
   author: String
   tags: [String]
   body: RichText

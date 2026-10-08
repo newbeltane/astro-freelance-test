@@ -38,7 +38,8 @@ var config_default = defineConfig({
           {
             type: "datetime",
             name: "pubDate",
-            label: "Publish Date"
+            label: "Publish Date",
+            required: true
           },
           {
             type: "string",

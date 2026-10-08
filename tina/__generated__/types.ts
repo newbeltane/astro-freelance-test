@@ -207,7 +207,7 @@ export type Blog = Node & Document & {
   __typename?: 'Blog';
   title: Scalars['String']['output'];
   description?: Maybe<Scalars['String']['output']>;
-  pubDate?: Maybe<Scalars['String']['output']>;
+  pubDate: Scalars['String']['output'];
   author?: Maybe<Scalars['String']['output']>;
   tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   body?: Maybe<Scalars['RichText']['output']>;
@@ -489,7 +489,7 @@ export type ServicesFilter = {
   points?: StringFilter | null | undefined;
 };
 
-export type BlogPartsFragment = { __typename: 'Blog', title: string, description: string | null, pubDate: string | null, author: string | null, tags: Array<string | null> | null, body: TinaMarkdownContent | null };
+export type BlogPartsFragment = { __typename: 'Blog', title: string, description: string | null, pubDate: string, author: string | null, tags: Array<string | null> | null, body: TinaMarkdownContent | null };
 
 export type PagePartsFragment = { __typename: 'Page', title: string, description: string | null, body: TinaMarkdownContent | null };
 
@@ -500,7 +500,7 @@ export type BlogQueryVariables = Exact<{
 }>;
 
 
-export type BlogQuery = { blog: { __typename: 'Blog', id: string, title: string, description: string | null, pubDate: string | null, author: string | null, tags: Array<string | null> | null, body: TinaMarkdownContent | null, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type BlogQuery = { blog: { __typename: 'Blog', id: string, title: string, description: string | null, pubDate: string, author: string | null, tags: Array<string | null> | null, body: TinaMarkdownContent | null, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
 export type BlogConnectionQueryVariables = Exact<{
   before?: string | null | undefined;
@@ -512,7 +512,7 @@ export type BlogConnectionQueryVariables = Exact<{
 }>;
 
 
-export type BlogConnectionQuery = { blogConnection: { totalCount: number, pageInfo: { hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges: Array<{ cursor: string, node: { __typename: 'Blog', id: string, title: string, description: string | null, pubDate: string | null, author: string | null, tags: Array<string | null> | null, body: TinaMarkdownContent | null, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type BlogConnectionQuery = { blogConnection: { totalCount: number, pageInfo: { hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges: Array<{ cursor: string, node: { __typename: 'Blog', id: string, title: string, description: string | null, pubDate: string, author: string | null, tags: Array<string | null> | null, body: TinaMarkdownContent | null, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export type PageQueryVariables = Exact<{
   relativePath: string;
