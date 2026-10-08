@@ -2,6 +2,7 @@
 title: How I built this site
 description: 'A brief description of how I built this site and some of the hurdles I had to overcome. Hopefully, this will be of help to others, who like me are vibe coding with Astro/VS Code/GitHub/Cloudflare and Tina CMS.'
 author: Steven Dale
+pubDate: 2026-10-08T00:00:00.000Z
 ---
 
 For many years I built websites with WordPress and in the last few used DIVI from Elegant Themes. I even have a lifetime licence for DIVI. However, due a recent issue with my shared hosting plan and WordPress getting hacked, I decided it was time to move on. 
