@@ -24,7 +24,7 @@
     "@tinacms/astro": "^0.7.0",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
-    "astro": "^7.3.3",
+    "astro": "^7.3.5",
     "astro-compress": "^2.4.3",
     "astro-icon": "^1.2.0",
     "tailwindcss": "^4.3.3",
