@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "tinacms dev -c \"astro dev\"",
+    "dev": "TINA_DATALAYER_PORT=${TINA_DATALAYER_PORT:-9100} tinacms dev --datalayer-port ${TINA_DATALAYER_PORT:-9100} -c \"astro dev\"",
     "start": "astro dev",
-    "build": "tinacms build && astro build",
+    "build": "TINA_DATALAYER_PORT=${TINA_DATALAYER_PORT:-9101} tinacms build --datalayer-port ${TINA_DATALAYER_PORT:-9101} && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "generate-types": "wrangler types"
