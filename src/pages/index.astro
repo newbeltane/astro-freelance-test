@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import StatBar from '../components/StatBar.astro';
@@ -10,6 +10,11 @@ import PageEditIsland from '../components/tina/PageEditIsland.jsx';
 import { services } from '../data/services';
 import { client } from "../../tina/__generated__/client";
 
+// Safely handle slugs across both Astro 4 and Astro 5
+function getSlug(post: CollectionEntry<'blog'>) {
+  const rawSlug = 'slug' in post ? post.slug : post.id;
+  return typeof rawSlug === 'string' ? rawSlug.replace(/\.(md|mdx)$/, '') : String(rawSlug);
+}
 
 // Fetch home page content from Tina client
 const res = await client.queries.page({
@@ -17,7 +22,12 @@ const res = await client.queries.page({
 });
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .sort((a, b) => {
+    // Safely sort to avoid crashes if pubDate is missing
+    const dateA = a.data.pubDate ? new Date(a.data.pubDate).valueOf() : 0;
+    const dateB = b.data.pubDate ? new Date(b.data.pubDate).valueOf() : 0;
+    return dateB - dateA;
+  })
   .slice(0, 3);
 
 const usps = [
@@ -39,7 +49,8 @@ const usps = [
 ];
 ---
 
-<BaseLayout title={res.data.page.title} description={res.data.page.description || ""}>
+<!-- Fallback to "" to satisfy Strict TypeScript if Tina returns undefined -->
+<BaseLayout title={res.data.page.title || ""} description={res.data.page.description || ""}>
   <Hero />
   <StatBar />
 
@@ -120,11 +131,11 @@ const usps = [
         <div class="grid grid-3">
           {posts.map((p) => (
             <BlogCard
-              title={p.data.title}
-              excerpt={p.data.description}
+              title={p.data.title || ""}
+              excerpt={p.data.description || ""}
               date={p.data.pubDate}
-              tags={p.data.tags}
-              href={`/blog/${p.id}/`}
+              tags={p.data.tags || []}
+              href={`/blog/${getSlug(p)}/`}
             />
           ))}
         </div>
