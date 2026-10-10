@@ -55,8 +55,8 @@ export default defineConfig({
             label: "Author",
           },
           {
-            type: "string", // Fixed: changed from 'list' to 'string'
-            list: true,     // Fixed: added list property
+            type: "string", 
+            list: true,     
             name: "tags",
             label: "Tags",
           },
@@ -69,7 +69,8 @@ export default defineConfig({
         ],
         ui: {
           router: ({ document }) => {
-            return `/blog/${document._sys.filename}`;
+            // Added trailing slash to match Astro's routing
+            return `/blog/${document._sys.filename}/`;
           },
         },
       },
@@ -101,7 +102,8 @@ export default defineConfig({
         ui: {
           router: ({ document }) => {
             if (document._sys.filename === "index") return "/";
-            return `/${document._sys.filename}`;
+            // Added trailing slash here as well for consistency
+            return `/${document._sys.filename}/`;
           },
         },
       },
@@ -109,7 +111,7 @@ export default defineConfig({
         name: "services",
         label: "Services",
         path: "src/data/services",
-        format: "json", // Fixed: changed from 'ts' to 'json' (Tina cannot edit .ts files)
+        format: "json", 
         fields: [
           {
             type: "string",
@@ -140,8 +142,8 @@ export default defineConfig({
             label: "Icon (SVG path)",
           },
           {
-            type: "string", // Fixed: changed from 'list' to 'string'
-            list: true,     // Fixed: added list property
+            type: "string", 
+            list: true,     
             name: "points",
             label: "Key Points",
           },
