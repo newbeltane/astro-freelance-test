@@ -1,11 +1,6 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-
-function getSlug(post: CollectionEntry<'blog'>) {
-  const rawSlug = 'slug' in post ? post.slug : post.id;
-  return typeof rawSlug === 'string' ? rawSlug.replace(/\.(md|mdx)$/, '') : String(rawSlug);
-}
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -16,8 +11,14 @@ export async function getStaticPaths() {
     return dateB - dateA;
   });
 
+  // Define helper INSIDE getStaticPaths so it exists in the isolated scope
+  function getPathSlug(post: CollectionEntry<'blog'>) {
+    const rawSlug = 'slug' in post ? post.slug : post.id;
+    return typeof rawSlug === 'string' ? rawSlug.replace(/\.(md|mdx)$/, '') : String(rawSlug);
+  }
+
   return posts.map((post, i) => ({
-    params: { slug: getSlug(post) },
+    params: { slug: getPathSlug(post) },
     props: {
       post,
       prev: posts[i + 1] || null,
@@ -34,7 +35,15 @@ interface Props {
 
 const { post, prev, next } = Astro.props;
 const { title, description, pubDate, tags, author } = post.data;
-const { Content } = await post.render();
+
+// Use the standalone render() function required in newer versions of Astro
+const { Content } = await render(post);
+
+// Define helper for the component template scope below
+function getSlug(post: CollectionEntry<'blog'>) {
+  const rawSlug = 'slug' in post ? post.slug : post.id;
+  return typeof rawSlug === 'string' ? rawSlug.replace(/\.(md|mdx)$/, '') : String(rawSlug);
+}
 
 const dateObj = new Date(pubDate);
 const formatted = !isNaN(dateObj.getTime())
