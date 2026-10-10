@@ -67,12 +67,6 @@ export default defineConfig({
             isBody: true,
           },
         ],
-        ui: {
-          router: ({ document }) => {
-            // Force lowercase and add trailing slash to match Astro's routing
-            return `/blog/${document._sys.filename.toLowerCase()}/`;
-          },
-        },
       }
     ],
   },
