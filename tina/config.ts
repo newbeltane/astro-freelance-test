@@ -67,6 +67,11 @@ export default defineConfig({
             isBody: true,
           },
         ],
+        ui: {
+          router: ({ document }) => {
+            return `/blog/${document._sys.filename.toLowerCase()}/`;
+          },
+        },
       }
     ],
   },
