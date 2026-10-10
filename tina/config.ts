@@ -69,41 +69,8 @@ export default defineConfig({
         ],
         ui: {
           router: ({ document }) => {
-            // Added trailing slash to match Astro's routing
-            return `/blog/${document._sys.filename}/`;
-          },
-        },
-      },
-      {
-        name: "page",
-        label: "Pages",
-        path: "src/content/pages",
-        format: "md",
-        fields: [
-          {
-            type: "string",
-            name: "title",
-            label: "Title",
-            isTitle: true,
-            required: true,
-          },
-          {
-            type: "string",
-            name: "description",
-            label: "Description",
-          },
-          {
-            type: "rich-text",
-            name: "body",
-            label: "Body Content",
-            isBody: true,
-          },
-        ],
-        ui: {
-          router: ({ document }) => {
-            if (document._sys.filename === "index") return "/";
-            // Added trailing slash here as well for consistency
-            return `/${document._sys.filename}/`;
+            // Force lowercase and add trailing slash to match Astro
+            return `/blog/${document._sys.filename.toLowerCase()}/`;           },         },       },       {         name: "page",         label: "Pages",         path: "src/content/pages",         format: "md",         fields: [           {             type: "string",             name: "title",             label: "Title",             isTitle: true,             required: true,           },           {             type: "string",             name: "description",             label: "Description",           },           {             type: "rich-text",             name: "body",             label: "Body Content",             isBody: true,           },         ],         ui: {           router: ({ document }) => {             const slug = document._sys.filename.toLowerCase();             if (slug === "index") return "/";             return `/${slug}/`;
           },
         },
       },

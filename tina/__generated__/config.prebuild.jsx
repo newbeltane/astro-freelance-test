@@ -48,9 +48,7 @@ var config_default = defineConfig({
           },
           {
             type: "string",
-            // Fixed: changed from 'list' to 'string'
             list: true,
-            // Fixed: added list property
             name: "tags",
             label: "Tags"
           },
@@ -63,7 +61,7 @@ var config_default = defineConfig({
         ],
         ui: {
           router: ({ document }) => {
-            return `/blog/${document._sys.filename}`;
+            return `/blog/${document._sys.filename.toLowerCase()}/`;
           }
         }
       },
@@ -72,30 +70,12 @@ var config_default = defineConfig({
         label: "Pages",
         path: "src/content/pages",
         format: "md",
-        fields: [
-          {
-            type: "string",
-            name: "title",
-            label: "Title",
-            isTitle: true,
-            required: true
-          },
-          {
-            type: "string",
-            name: "description",
-            label: "Description"
-          },
-          {
-            type: "rich-text",
-            name: "body",
-            label: "Body Content",
-            isBody: true
-          }
-        ],
+        fields: [{ type: "string", name: "title", label: "Title", isTitle: true, required: true }, { type: "string", name: "description", label: "Description" }, { type: "rich-text", name: "body", label: "Body Content", isBody: true }],
         ui: {
           router: ({ document }) => {
-            if (document._sys.filename === "index") return "/";
-            return `/${document._sys.filename}`;
+            const slug = document._sys.filename.toLowerCase();
+            if (slug === "index") return "/";
+            return `/${slug}/`;
           }
         }
       },
@@ -104,7 +84,6 @@ var config_default = defineConfig({
         label: "Services",
         path: "src/data/services",
         format: "json",
-        // Fixed: changed from 'ts' to 'json' (Tina cannot edit .ts files)
         fields: [
           {
             type: "string",
@@ -136,9 +115,7 @@ var config_default = defineConfig({
           },
           {
             type: "string",
-            // Fixed: changed from 'list' to 'string'
             list: true,
-            // Fixed: added list property
             name: "points",
             label: "Key Points"
           }
