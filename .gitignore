@@ -25,3 +25,5 @@ npm-debug.log*
 
 # Prevent Tina workflow recreation
 .github/workflows/tinacms.yml
+node_modules
+tina/__generated__

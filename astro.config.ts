@@ -1,3 +1,4 @@
+import { tinaAdminDevRedirect } from '@tinacms/astro/vite';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { defineConfig, fontProviders } from 'astro/config';
@@ -11,6 +12,7 @@ import compress from 'astro-compress';
 import cloudflare from '@astrojs/cloudflare';
 import react from '@astrojs/react';
 import type { AstroIntegration } from 'astro';
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const hasExternalScripts = false;
 const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroIntegration)[] = []) =>
@@ -30,7 +32,6 @@ export default defineConfig({
   // metric-adjusted fallbacks. Injected via <Font /> in Layout.astro and
   // consumed through the `--font-inter` CSS variable in CustomStyles.astro.
   fonts: [
-
     {
       provider: fontProviders.fontsource(),
       name: 'Inter',
@@ -120,8 +121,8 @@ export default defineConfig({
     },
   },
 
-    vite: {
-    plugins: [tailwindcss()],
+  vite: {
+    plugins: [tailwindcss(), tinaAdminDevRedirect()],
     resolve: {
       alias: {
         '~': path.resolve(__dirname, './src'),
