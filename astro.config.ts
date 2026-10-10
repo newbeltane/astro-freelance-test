@@ -125,7 +125,6 @@ export default defineConfig({
     resolve: {
       alias: {
         '~': path.resolve(__dirname, './src'),
-        '@tina': path.resolve(__dirname, './tina'),
       },
       dedupe: ['react', 'react-dom'],
     },

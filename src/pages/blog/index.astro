@@ -1,46 +1,182 @@
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import BlogCard from '../../components/BlogCard.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import StatBar from '../components/StatBar.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { services } from '../data/services';
+
+function getSlug(post: CollectionEntry<'blog'>) {
+  const rawSlug = 'slug' in post ? post.slug : post.id;
+  return typeof rawSlug === 'string' ? rawSlug.replace(/\.(md|mdx)$/, '') : String(rawSlug);
+}
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  .sort((a, b) => {
+    const dateA = a.data.pubDate ? new Date(a.data.pubDate).valueOf() : 0;
+    const dateB = b.data.pubDate ? new Date(b.data.pubDate).valueOf() : 0;
+    return dateB - dateA;
+  })
+  .slice(0, 3);
+
+const usps = [
+  {
+    title: 'Speed as standard',
+    body: 'Every site is built for a green 100 on PageSpeed. Fast pages keep visitors engaged and rank better on Google.',
+    icon: '⚡',
+  },
+  {
+    title: 'Secure by design',
+    body: 'HTTPS, hardened security headers and Cloudflare’s firewall come as standard — not as an afterthought.',
+    icon: '🛡️',
+  },
+  {
+    title: 'Built to be found',
+    body: 'Clean semantic markup, structured metadata and automatic sitemaps so search engines understand your site.',
+    icon: '🔍',
+  },
+];
 ---
 
-<BaseLayout
-  title="Blog"
-  description="Guides and insights on Astro, web performance, SEO and Cloudflare hosting for small business websites."
->
-  <section class="section-sm page-hero">
+<BaseLayout title="Home" description="Digital services and fast web development">
+  <Hero />
+  <StatBar />
+
+  <!-- Services -->
+  <section class="section" id="services">
     <div class="container">
-      <span class="eyebrow">Blog</span>
-      <h1 class="page-title">Guides &amp; <span class="text-gradient">insights</span></h1>
-      <p class="section-intro">Practical advice on building fast, secure, well-ranked websites — from someone who does it every day.</p>
+      <div class="section-head center">
+        <span class="eyebrow">What I do</span>
+        <h2 class="section-title">Everything your website needs</h2>
+        <p class="section-intro">From first pixel to live on the edge — design, build, hosting and the ongoing work that keeps you ranking.</p>
+      </div>
+      <div class="services-flex-grid">
+        {services.map((s) => (
+          <ServiceCard icon={s.icon} title={s.title} description={s.short} points={s.points.slice(0, 3)} />
+        ))}
+      </div>
     </div>
   </section>
 
+  <!-- Why choose me -->
   <section class="section" style="padding-top:0;">
     <div class="container">
-      {posts.length > 0 ? (
+      <div class="section-head center">
+        <span class="eyebrow">Why work with me</span>
+        <h2 class="section-title">A freelancer who sweats the details</h2>
+      </div>
+      <div class="grid grid-3">
+        {usps.map((u) => (
+          <article class="card usp">
+            <span class="usp-icon" aria-hidden="true">{u.icon}</span>
+            <h3>{u.title}</h3>
+            <p>{u.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="section-head center">
+        <span class="eyebrow">Kind words</span>
+        <h2 class="section-title">Trusted by small businesses &amp; charities</h2>
+      </div>
+      <div class="grid grid-2">
+        <TestimonialCard
+          quote="Steve has always proved helpful & professional with IT problems. His expertise has been invaluable."
+          name="Zvonimir Miljkovic"
+          business="Freelancer, Germany"
+        />
+        <TestimonialCard
+          quote="Steve helped me master Squarespace for our nonprofit's website. He was patient, highly flexible, and even taught me online marketing basics about layout and design."
+          name="Therese Murphy"
+          business="NGO, Florida"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest posts -->
+  {posts.length > 0 && (
+    <section class="section" style="padding-top:0;">
+      <div class="container">
+        <div class="section-head center">
+          <span class="eyebrow">From the blog</span>
+          <h2 class="section-title">Guides &amp; insights</h2>
+        </div>
         <div class="grid grid-3">
           {posts.map((p) => (
             <BlogCard
-              title={p.data.title}
-              excerpt={p.data.description}
+              title={p.data.title || ""}
+              excerpt={p.data.description || ""}
               date={p.data.pubDate}
-              tags={p.data.tags}
-              href={`/blog/${p.id}/`}
+              tags={p.data.tags || []}
+              href={`/blog/${getSlug(p)}/`}
             />
           ))}
         </div>
-      ) : (
-        <p>No posts yet — check back soon.</p>
-      )}
+      </div>
+    </section>
+  )}
+
+  <!-- CTA banner -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-banner">
+        <div>
+          <h2>Ready for a website that works as hard as you do?</h2>
+          <p>Tell me about your project and I'll get back to you within one working day with a plan and a quote.</p>
+        </div>
+        <a href="/pricing/" class="btn btn-primary">Get a Quote <span aria-hidden="true">→</span></a>
+      </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .page-hero { padding-top: clamp(2.5rem, 6vw, 4rem); }
-  .page-title { font-size: var(--fs-3xl); margin: 0.75rem 0 1.25rem; }
+  .page-title { font-size: var(--fs-3xl); margin-bottom: 1rem; }
+  .max-w-2xl { max-width: 48rem; margin: 0 auto; }
+  .lead { font-size: var(--fs-lg); color: var(--text-primary); }
+  .usp { padding: clamp(1.5rem, 3vw, 2rem); }
+  .usp-icon { font-size: 1.8rem; display: block; margin-bottom: 0.9rem; }
+  .usp h3 { font-size: var(--fs-lg); margin-bottom: 0.5rem; }
+  .usp p { font-size: var(--fs-sm); }
+  .cta-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    padding: clamp(2rem, 5vw, 3.5rem);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-strong);
+    background:
+      radial-gradient(circle at 15% 20%, rgba(6,182,212,0.12), transparent 55%),
+      radial-gradient(circle at 85% 80%, rgba(139,92,246,0.12), transparent 55%),
+      var(--bg-card);
+  }
+  .cta-banner h2 { font-size: var(--fs-xl); margin-bottom: 0.5rem; max-width: 620px; }
+  .cta-banner p { font-size: var(--fs-base); max-width: 560px; }
+  
+  .services-flex-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+  }
+  .services-flex-grid > :global(*) {
+    flex: 0 1 calc(33.333% - 1.35rem); 
+    min-width: 280px; 
+  }
+  
+  @media (max-width: 768px) {
+    .services-flex-grid > :global(*) {
+      flex: 0 1 100%;
+    }
+  }
 </style>
